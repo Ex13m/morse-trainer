@@ -1,4 +1,4 @@
-import { MORSE_RU, MORSE_EN } from "./morse";
+import { MORSE_MAPS } from "./morse";
 
 const dotMs = (wpm: number) => 1200 / Math.max(5, wpm);
 
@@ -190,7 +190,7 @@ export async function decodeFile(file: File) {
   const C = window.AudioContext || (window as any).webkitAudioContext;
   const ctx = new C();
   const buf = await ctx.decodeAudioData(arr);
-  const r = await decodeBuffer(buf, { RU: MORSE_RU, EN: MORSE_EN });
+  const r = await decodeBuffer(buf, MORSE_MAPS);
   ctx.close?.();
   return r;
 }

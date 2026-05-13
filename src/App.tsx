@@ -1,12 +1,12 @@
 import { useState, useEffect, useRef, useMemo, useCallback } from "react";
-import { MORSE_RU, MORSE_EN, PHRASES, type Lang, type Theme, type TabIndex } from "./data/morse";
+import { MORSE_RU, MORSE_EN, MORSE_ES, MORSE_DE, MORSE_MAPS, PHRASES, type Lang, type Theme, type TabIndex } from "./data/morse";
 import { I18N } from "./data/i18n";
 import { useOscillator } from "./hooks/useOscillator";
 import { useUpdateCheck } from "./hooks/useUpdateCheck";
 import { exportWav, decodeFile, createMicDecoder, morseToText, type MicDecoderInstance } from "./data/morseCodec";
 import {
   IconCap, IconPencil, IconCode, IconGear, IconX,
-  IconSpace, IconBackspace, IconAnt,
+  IconSpace, IconBackspace, IconAnt, IconGlobe,
   IconDownload, IconUpload, IconMic,
 } from "./components/Icons";
 import Splash from "./components/Splash";
@@ -51,7 +51,7 @@ function buildVerticalLayout(map: Record<string, string>, rootLabel: string, max
 function MorseTree({ lang, activeCode, flashCode, rootLabel, hintCode }: {
   lang: Lang; activeCode: string | null; flashCode: string | null; rootLabel: string; hintCode: string | null;
 }) {
-  const map = lang === "RU" ? MORSE_RU : MORSE_EN;
+  const map = MORSE_MAPS[lang];
   const layout = useMemo(() => buildVerticalLayout(map, rootLabel, 5), [map, rootLabel]);
   const { nodes, positions, slots, maxDepth } = layout;
   const W = 760, H = 660;
@@ -192,6 +192,7 @@ const TAB_ICONS = [IconCap, IconPencil, IconCode, IconGear];
 export default function App() {
   const [showSplash, setShowSplash] = useState(true);
   const [lang, setLang] = useState<Lang>("RU");
+  const [langOpen, setLangOpen] = useState(false);
   const [tab, setTab] = useState<TabIndex>(0);
   const [theme, setTheme] = useState<Theme>("mix");
   const [phrase, setPhrase] = useState("");
@@ -219,7 +220,7 @@ export default function App() {
   const { updateAvailable, reload } = useUpdateCheck();
 
   const t = I18N[lang];
-  const map = lang === "RU" ? MORSE_RU : MORSE_EN;
+  const map = MORSE_MAPS[lang];
   const code2char = useMemo(() => {
     const o: Record<string, string> = {};
     for (const [k, v] of Object.entries(map)) o[v] = k;
@@ -238,7 +239,7 @@ export default function App() {
   const pickNewPhrase = useCallback(() => {
     const pool = PHRASES[lang];
     const list = theme === "mix"
-      ? [...pool.sea, ...pool.war, ...pool.spy, ...pool.sos]
+      ? Object.values(pool).flat()
       : pool[theme] || [];
     const next = list[Math.floor(Math.random() * list.length)] || "SOS";
     setPhrase(next);
@@ -251,7 +252,8 @@ export default function App() {
   useEffect(() => { if (tab === 0) pickNewPhrase(); }, [lang, theme, tab, pickNewPhrase]);
 
   useEffect(() => {
-    setCodeText(lang === "RU" ? "ПРИВЕТ МИР" : "HELLO WORLD");
+    const defaults: Record<Lang, string> = { RU: "ПРИВЕТ МИР", EN: "HELLO WORLD", ES: "HOLA MUNDO", DE: "HALLO WELT" };
+    setCodeText(defaults[lang]);
   }, [lang]);
 
   const handleDown = useCallback(() => {
@@ -444,10 +446,10 @@ export default function App() {
       setMicActive(false);
       const morse = micMorse;
       if (morse) {
-        const ru = morseToText(morse, MORSE_RU);
-        const en = morseToText(morse, MORSE_EN);
-        const best = (ru.total - ru.unknown) >= (en.total - en.unknown)
-          ? { ...ru, alpha: "RU" as Lang } : { ...en, alpha: "EN" as Lang };
+        const candidates = (["RU", "EN", "ES", "DE"] as Lang[]).map(a => ({
+          ...morseToText(morse, MORSE_MAPS[a]), alpha: a,
+        }));
+        const best = candidates.reduce((a, b) => (b.total - b.unknown) > (a.total - a.unknown) ? b : a);
         if (best.text) {
           setCodeText(best.text);
           setDecodedAlpha(best.alpha);
@@ -479,10 +481,18 @@ export default function App() {
     <div className="app">
           {/* TOP BAR */}
           <div className="topbar">
-            <div className="plate lang">
-              <button className={lang === "RU" ? "on" : ""} onClick={() => setLang("RU")}>RU</button>
-              <span className="divider" />
-              <button className={lang === "EN" ? "on" : ""} onClick={() => setLang("EN")}>EN</button>
+            <div className="plate lang-btn" onClick={() => setLangOpen(o => !o)}>
+              <IconGlobe />
+              <span className="lang-label">{t.langName}</span>
+              {langOpen && (
+                <div className="lang-popup">
+                  {(["RU", "EN", "ES", "DE"] as Lang[]).map(l => (
+                    <button key={l} className={lang === l ? "on" : ""} onClick={(e) => { e.stopPropagation(); setLang(l); setLangOpen(false); }}>
+                      {I18N[l].langName}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
             <div className="plate tabs">
               {TAB_ICONS.map((Ic, i) => (
@@ -519,7 +529,7 @@ export default function App() {
                 <span className="display code-display">
                   {micMorse
                     ? <span className="pending">{micMorse.replace(/\./g, "•").replace(/-/g, "━").replace(/\//g, " / ")}</span>
-                    : <span className="placeholder">{lang === "RU" ? "Слушаю…" : "Listening…"}</span>}
+                    : <span className="placeholder">{({ RU: "Слушаю…", EN: "Listening…", ES: "Escuchando…", DE: "Höre…" })[lang]}</span>}
                   <span className="cursor" />
                 </span>
               ) : (
@@ -541,9 +551,11 @@ export default function App() {
           <div className="themes-slot">
             {tab === 0 && (
               <div className="themes">
-                {(["sea", "war", "spy", "sos", "mix"] as Theme[]).map(k => (
-                  <button key={k} className={theme === k ? "on" : ""} onClick={() => setTheme(k)}>{t.themes[k]}</button>
-                ))}
+                <div className="themes-scroll">
+                  {(["sea", "war", "spy", "sos", "pirate", "space", "animal", "mix"] as Theme[]).map(k => (
+                    <button key={k} className={theme === k ? "on" : ""} onClick={() => setTheme(k)}>{t.themes[k]}</button>
+                  ))}
+                </div>
                 <button className="next" onClick={pickNewPhrase}>{t.next}</button>
               </div>
             )}
@@ -553,10 +565,10 @@ export default function App() {
                   <IconDownload /><span>WAV</span>
                 </button>
                 <button className="tool-btn" disabled={isPlaying || micActive} onClick={handleImportClick}>
-                  <IconUpload /><span>{lang === "RU" ? "ФАЙЛ" : "FILE"}</span>
+                  <IconUpload /><span>{({ RU: "ФАЙЛ", EN: "FILE", ES: "ARCHIVO", DE: "DATEI" })[lang]}</span>
                 </button>
                 <button className={`tool-btn ${micActive ? "on" : ""}`} disabled={isPlaying} onClick={handleMicToggle}>
-                  <IconMic /><span>{micActive ? (lang === "RU" ? "СТОП" : "STOP") : (lang === "RU" ? "МИКРОФОН" : "MIC")}</span>
+                  <IconMic /><span>{micActive ? t.stop.replace("■ ", "") : ({ RU: "МИКРОФОН", EN: "MIC", ES: "MICRO", DE: "MIKRO" })[lang]}</span>
                 </button>
                 {decodedAlpha && <span className="alpha-badge">{decodedAlpha}</span>}
                 <input
@@ -610,7 +622,7 @@ export default function App() {
                   <div className={`switch ${vibEnabled ? "on" : ""}`} onClick={() => setVibEnabled(v => !v)} />
                 </div>
                 <button className="set-reset" onClick={() => { setFreq(620); setThreshold(260); setWpm(15); setVibEnabled(true); }}>
-                  {lang === "RU" ? "СБРОСИТЬ ПО УМОЛЧАНИЮ" : "RESET TO DEFAULTS"}
+                  {({ RU: "СБРОСИТЬ ПО УМОЛЧАНИЮ", EN: "RESET TO DEFAULTS", ES: "RESTABLECER", DE: "ZURÜCKSETZEN" })[lang]}
                 </button>
                 <div className="set-footer">MORSE TRAINER · v2</div>
               </div>
@@ -692,7 +704,7 @@ export default function App() {
 
           {updateAvailable && (
             <button className="update-banner" onClick={reload}>
-              {lang === "RU" ? "ДОСТУПНО ОБНОВЛЕНИЕ — НАЖМИТЕ" : "UPDATE AVAILABLE — TAP"}
+              {({ RU: "ОБНОВЛЕНИЕ — НАЖМИТЕ", EN: "UPDATE — TAP", ES: "ACTUALIZAR — PULSE", DE: "UPDATE — TIPPEN" })[lang]}
             </button>
           )}
     </div>
