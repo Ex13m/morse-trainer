@@ -188,60 +188,6 @@ function Scope({ active, seq }: { active: boolean; seq: string }) {
 
 function sleep(ms: number) { return new Promise(r => setTimeout(r, ms)); }
 
-/* ── Ranks system ── */
-const RANK_BADGES = ["🐢", "🐇", "⚓", "🧭", "🎖️", "⚡", "👑"];
-const RANK_WPM =   [0,     3,    5,    8,    12,   16,   20];
-
-function getRankIndex(bestWpm: number): number {
-  let idx = 0;
-  for (let i = RANK_WPM.length - 1; i >= 0; i--) {
-    if (bestWpm >= RANK_WPM[i]) { idx = i; break; }
-  }
-  return idx;
-}
-
-/* ── localStorage helpers ── */
-function loadSettings() {
-  try {
-    const raw = localStorage.getItem("morse-settings");
-    if (raw) return JSON.parse(raw);
-  } catch { /* noop */ }
-  return null;
-}
-function saveSettings(s: { freq: number; threshold: number; wpm: number; vibEnabled: boolean; lang: string; theme: string }) {
-  try { localStorage.setItem("morse-settings", JSON.stringify(s)); } catch { /* noop */ }
-}
-function loadStats() {
-  try {
-    const raw = localStorage.getItem("morse-stats");
-    if (raw) return JSON.parse(raw);
-  } catch { /* noop */ }
-  return { bestWpm: 0, phrasesCompleted: 0 };
-}
-function saveStats(s: { bestWpm: number; phrasesCompleted: number }) {
-  try { localStorage.setItem("morse-stats", JSON.stringify(s)); } catch { /* noop */ }
-}
-
-function playRankUpSound() {
-  try {
-    const C = window.AudioContext || (window as any).webkitAudioContext;
-    const ctx = new C();
-    const notes = [392, 523, 659, 784, 1047, 1319];
-    notes.forEach((freq, i) => {
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.type = "sine";
-      osc.frequency.value = freq;
-      gain.gain.setValueAtTime(0.18, ctx.currentTime + i * 0.1);
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.1 + 0.4);
-      osc.connect(gain).connect(ctx.destination);
-      osc.start(ctx.currentTime + i * 0.1);
-      osc.stop(ctx.currentTime + i * 0.1 + 0.4);
-    });
-    setTimeout(() => ctx.close(), 2000);
-  } catch { /* no audio */ }
-}
-
 function playVictorySound() {
   try {
     const C = window.AudioContext || (window as any).webkitAudioContext;
@@ -265,14 +211,11 @@ function playVictorySound() {
 const TAB_ICONS = [IconCap, IconPencil, IconCode, IconGear];
 
 export default function App() {
-  const saved = useRef(loadSettings());
-  const savedStats = useRef(loadStats());
-
   const [showSplash, setShowSplash] = useState(true);
-  const [lang, setLang] = useState<Lang>((saved.current?.lang as Lang) || "RU");
+  const [lang, setLang] = useState<Lang>("RU");
   const [langOpen, setLangOpen] = useState(false);
   const [tab, setTab] = useState<TabIndex>(0);
-  const [theme, setTheme] = useState<Theme>((saved.current?.theme as Theme) || "mix");
+  const [theme, setTheme] = useState<Theme>("mix");
   const [phrase, setPhrase] = useState("");
   const [typed, setTyped] = useState("");
   const [freeText, setFreeText] = useState("");
@@ -291,27 +234,12 @@ export default function App() {
   const [micMorse, setMicMorse] = useState("");
   const [phraseComplete, setPhraseComplete] = useState(false);
 
-  const [freq, setFreq] = useState(saved.current?.freq ?? 620);
-  const [threshold, setThreshold] = useState(saved.current?.threshold ?? 260);
-  const [wpm, setWpm] = useState(saved.current?.wpm ?? 15);
-  const [vibEnabled, setVibEnabled] = useState(saved.current?.vibEnabled ?? true);
-
-  const [bestWpm, setBestWpm] = useState(savedStats.current.bestWpm ?? 0);
-  const [phrasesCompleted, setPhrasesCompleted] = useState(savedStats.current.phrasesCompleted ?? 0);
-  const [rankUpShow, setRankUpShow] = useState<number | null>(null);
-  const phraseStartRef = useRef(0);
+  const [freq, setFreq] = useState(620);
+  const [threshold, setThreshold] = useState(260);
+  const [wpm, setWpm] = useState(15);
+  const [vibEnabled, setVibEnabled] = useState(true);
 
   const { updateAvailable, reload } = useUpdateCheck();
-
-  // Save settings to localStorage on change
-  useEffect(() => {
-    saveSettings({ freq, threshold, wpm, vibEnabled, lang, theme });
-  }, [freq, threshold, wpm, vibEnabled, lang, theme]);
-
-  // Save stats to localStorage on change
-  useEffect(() => {
-    saveStats({ bestWpm, phrasesCompleted });
-  }, [bestWpm, phrasesCompleted]);
 
   const t = I18N[lang];
   const map = MORSE_MAPS[lang];
@@ -339,29 +267,7 @@ export default function App() {
     setPhraseComplete(false);
   }, [lang, theme]);
 
-  useEffect(() => { if (tab === 0) { pickNewPhrase(); phraseStartRef.current = 0; } }, [lang, theme, tab, pickNewPhrase]);
-
-  // Passive WPM tracking — reacts to phraseComplete without touching typing logic
-  useEffect(() => {
-    if (!phraseComplete || !phrase) return;
-    const elapsed = (Date.now() - phraseStartRef.current) / 1000 / 60;
-    const wordCount = phrase.replace(/\s+/g, " ").trim().split(" ").length;
-    const sessionWpm = elapsed > 0 ? Math.round(wordCount / elapsed) : 0;
-    const oldRank = getRankIndex(bestWpm);
-    const newBest = Math.max(bestWpm, sessionWpm);
-    const newRank = getRankIndex(newBest);
-    setBestWpm(newBest);
-    setPhrasesCompleted((c: number) => c + 1);
-    if (newRank > oldRank || (oldRank === 0 && phrasesCompleted === 0)) {
-      setTimeout(() => {
-        playRankUpSound();
-        setRankUpShow(newRank);
-        setTimeout(() => setRankUpShow(null), 3200);
-      }, 800);
-    }
-    phraseStartRef.current = 0;
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [phraseComplete]);
+  useEffect(() => { if (tab === 0) pickNewPhrase(); }, [lang, theme, tab, pickNewPhrase]);
 
   useEffect(() => {
     const defaults: Record<Lang, string> = { RU: "ПРИВЕТ МИР", EN: "HELLO WORLD", ES: "HOLA MUNDO", DE: "HALLO WELT" };
@@ -400,7 +306,6 @@ export default function App() {
             if (ch === expected) {
               setTyped(s => {
                 let r = s + ch;
-                if (r.length === 1) phraseStartRef.current = Date.now();
                 let idx = r.length;
                 while (idx < phrase.length && phrase[idx] === " ") { r += " "; idx++; }
                 if (r.length >= phrase.length) {
@@ -595,15 +500,6 @@ export default function App() {
     }
   }
 
-  // Live WPM — only during active training
-  const liveWpm = useMemo(() => {
-    if (tab !== 0 || !typed || phraseStartRef.current === 0) return 0;
-    const elapsed = (Date.now() - phraseStartRef.current) / 1000 / 60;
-    const chars = typed.replace(/\s/g, "").length;
-    return elapsed > 0 && chars > 0 ? Math.round((chars / 5) / elapsed) : 0;
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tab, typed]);
-
   const hintCode = tab === 0
     ? map[phrase.replace(/\s/g, "")[typed.replace(/\s/g, "").length] || ""] || null
     : null;
@@ -614,11 +510,6 @@ export default function App() {
     <div className="app">
           {/* TOP BAR */}
           <div className="topbar">
-            {phrasesCompleted > 0 && (
-              <div className="rank-badge" title={t.ranks[getRankIndex(bestWpm)]}>
-                <span className="rank-emoji">{RANK_BADGES[getRankIndex(bestWpm)]}</span>
-              </div>
-            )}
             <div className="plate lang-btn" onClick={() => setLangOpen(o => !o)}>
               <IconGlobe />
               <span className="lang-label">{t.langName}</span>
@@ -645,7 +536,7 @@ export default function App() {
           {/* FIELD */}
           <div className="plate field">
             <span className="metastrip">
-              {tab === 0 && <>{t.field_train}{liveWpm > 0 && <span className="live-wpm"> · {liveWpm} {t.units.wpm}</span>}</>}
+              {tab === 0 && t.field_train}
               {tab === 1 && t.field_free}
               {tab === 2 && t.field_code}
               {tab === 3 && t.settings.title}
@@ -755,28 +646,12 @@ export default function App() {
                   <div className="top"><span>{t.settings.wpm}</span><b>{wpm} {t.units.wpm}</b></div>
                   <input type="range" min="5" max="40" step="1" value={wpm} onChange={e => setWpm(+e.target.value)} />
                 </div>
-                <div className="set-row rank-section">
-                  <div className="rank-row">
-                    {RANK_BADGES.map((badge, i) => {
-                      const achieved = bestWpm >= RANK_WPM[i];
-                      return (
-                        <div key={i} className={`rank-item ${achieved ? "achieved" : ""}`}>
-                          <span className="rank-icon">{badge}</span>
-                          <span className="rank-wpm">{RANK_WPM[i]}</span>
-                        </div>
-                      );
-                    })}
-                  </div>
-                  {phrasesCompleted > 0 && (
-                    <div className="rank-name">{RANK_BADGES[getRankIndex(bestWpm)]} {t.ranks[getRankIndex(bestWpm)]} · {bestWpm} {t.units.wpm}</div>
-                  )}
-                </div>
                 <div className="set-row toggle">
                   <div className="top" style={{ flex: 1 }}><span>{t.settings.vib}</span></div>
-                  <div className={`switch ${vibEnabled ? "on" : ""}`} onClick={() => setVibEnabled((v: boolean) => !v)} />
+                  <div className={`switch ${vibEnabled ? "on" : ""}`} onClick={() => setVibEnabled(v => !v)} />
                 </div>
-                <button className="set-reset" onClick={() => { setFreq(620); setThreshold(260); setWpm(15); setVibEnabled(true); setBestWpm(0); setPhrasesCompleted(0); }}>
-                  {({ RU: "СБРОСИТЬ ВСЁ", EN: "RESET ALL", ES: "RESTABLECER TODO", DE: "ALLES ZURÜCKSETZEN" })[lang]}
+                <button className="set-reset" onClick={() => { setFreq(620); setThreshold(260); setWpm(15); setVibEnabled(true); }}>
+                  {({ RU: "СБРОСИТЬ ПО УМОЛЧАНИЮ", EN: "RESET TO DEFAULTS", ES: "RESTABLECER", DE: "ZURÜCKSETZEN" })[lang]}
                 </button>
                 <div className="set-footer">MORSE TRAINER · v2</div>
               </div>
@@ -862,14 +737,6 @@ export default function App() {
               <span className="victory-text">
                 {({ RU: "ОТЛИЧНО!", EN: "GREAT!", ES: "EXCELENTE!", DE: "SUPER!" })[lang]}
               </span>
-            </div>
-          )}
-
-          {rankUpShow !== null && (
-            <div className="rankup">
-              <span className="rankup-badge">{RANK_BADGES[rankUpShow]}</span>
-              <span className="rankup-label">{t.rankUp}</span>
-              <span className="rankup-name">{t.ranks[rankUpShow]}</span>
             </div>
           )}
 
