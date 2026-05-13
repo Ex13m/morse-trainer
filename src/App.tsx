@@ -295,9 +295,12 @@ export default function App() {
     osc.on(freq);
     if (vibEnabled && navigator.vibrate) navigator.vibrate(20);
     setPressDur(0);
-    railIntervalRef.current = window.setInterval(() => {
+    const tick = () => {
+      if (!pressStartRef.current) return;
       setPressDur(performance.now() - pressStartRef.current);
-    }, 16);
+      railIntervalRef.current = requestAnimationFrame(tick);
+    };
+    railIntervalRef.current = requestAnimationFrame(tick);
   }, [keyDown, freq, vibEnabled, osc]);
 
   const addSymbol = useCallback((sym: string) => {
@@ -359,7 +362,8 @@ export default function App() {
     const dur = performance.now() - pressStartRef.current;
     setKeyDown(false);
     osc.off();
-    clearInterval(railIntervalRef.current);
+    cancelAnimationFrame(railIntervalRef.current);
+    pressStartRef.current = 0;
     setPressDur(0);
     if (tab === 3) return;
     if (dur < 40) return;
@@ -383,7 +387,8 @@ export default function App() {
     if (keyDown) {
       setKeyDown(false);
       osc.off();
-      clearInterval(railIntervalRef.current);
+      cancelAnimationFrame(railIntervalRef.current);
+      pressStartRef.current = 0;
       setPressDur(0);
     }
     if (tab !== 2 && isPlayingRef.current) {
