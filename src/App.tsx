@@ -210,12 +210,20 @@ function playVictorySound() {
 
 const TAB_ICONS = [IconCap, IconPencil, IconCode, IconGear];
 
+/* ── localStorage helpers ── */
+const LS_KEY = "morse-prefs";
+function loadPrefs(): { freq: number; threshold: number; wpm: number; vibEnabled: boolean; lang: Lang; theme: Theme } | null {
+  try { const r = localStorage.getItem(LS_KEY); return r ? JSON.parse(r) : null; } catch { return null; }
+}
+
 export default function App() {
+  const _saved = useRef(loadPrefs());
+
   const [showSplash, setShowSplash] = useState(true);
-  const [lang, setLang] = useState<Lang>("RU");
+  const [lang, setLang] = useState<Lang>(_saved.current?.lang ?? "RU");
   const [langOpen, setLangOpen] = useState(false);
   const [tab, setTab] = useState<TabIndex>(0);
-  const [theme, setTheme] = useState<Theme>("mix");
+  const [theme, setTheme] = useState<Theme>(_saved.current?.theme ?? "mix");
   const [phrase, setPhrase] = useState("");
   const [typed, setTyped] = useState("");
   const [freeText, setFreeText] = useState("");
@@ -234,12 +242,17 @@ export default function App() {
   const [micMorse, setMicMorse] = useState("");
   const [phraseComplete, setPhraseComplete] = useState(false);
 
-  const [freq, setFreq] = useState(620);
-  const [threshold, setThreshold] = useState(260);
-  const [wpm, setWpm] = useState(15);
-  const [vibEnabled, setVibEnabled] = useState(true);
+  const [freq, setFreq] = useState(_saved.current?.freq ?? 620);
+  const [threshold, setThreshold] = useState(_saved.current?.threshold ?? 260);
+  const [wpm, setWpm] = useState(_saved.current?.wpm ?? 15);
+  const [vibEnabled, setVibEnabled] = useState(_saved.current?.vibEnabled ?? true);
 
   const { updateAvailable, reload } = useUpdateCheck();
+
+  // Save preferences to localStorage
+  useEffect(() => {
+    try { localStorage.setItem(LS_KEY, JSON.stringify({ freq, threshold, wpm, vibEnabled, lang, theme })); } catch { /* noop */ }
+  }, [freq, threshold, wpm, vibEnabled, lang, theme]);
 
   const t = I18N[lang];
   const map = MORSE_MAPS[lang];
