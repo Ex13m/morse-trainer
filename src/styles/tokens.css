@@ -1,0 +1,33 @@
+:root {
+  --bg-0: #050402;
+  --bg-1: #0c0805;
+  --bg-2: #14100a;
+
+  --brass-50: #f6e3b0;
+  --brass-100: #ecd293;
+  --brass-200: #d9b66e;
+  --brass-300: #c29a4f;
+  --brass-400: #a07d36;
+  --brass-500: #7a5d24;
+  --brass-600: #5a4319;
+  --brass-700: #3b2c10;
+  --brass-800: #261b0a;
+
+  --live: #b9e8a7;
+  --live-stroke: #67c269;
+  --live-glow: rgba(103, 194, 105, 0.7);
+
+  --dot-edge: #ff5a4a;
+  --dash-edge: #f0b020;
+
+  --err: #e88762;
+
+  --serif: "Cinzel", "Marcellus", serif;
+  --sans: "IBM Plex Sans", system-ui, sans-serif;
+  --mono: "JetBrains Mono", monospace;
+  --type: "Special Elite", "Courier New", monospace;
+
+  --device-w: 414px;
+  --device-h: 896px;
+  --radius: 46px;
+}
