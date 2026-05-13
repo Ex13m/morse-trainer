@@ -745,20 +745,21 @@ export default function App() {
                 <div className="set-row">
                   <div className="top"><span>{t.settings.wpm}</span><b>{wpm} {t.units.wpm}</b></div>
                   <input type="range" min="5" max="40" step="1" value={wpm} onChange={e => setWpm(+e.target.value)} />
+                </div>
+                <div className="set-row rank-section">
                   <div className="rank-row">
                     {RANK_BADGES.map((badge, i) => {
                       const achieved = bestWpm >= RANK_WPM[i];
-                      const current = getRankIndex(wpm) === i;
                       return (
-                        <div key={i} className={`rank-item ${achieved ? "achieved" : ""} ${current ? "current" : ""}`}>
+                        <div key={i} className={`rank-item ${achieved ? "achieved" : ""}`}>
                           <span className="rank-icon">{badge}</span>
                           <span className="rank-wpm">{RANK_WPM[i]}</span>
                         </div>
                       );
                     })}
                   </div>
-                  {getRankIndex(wpm) >= 0 && (
-                    <div className="rank-name">{t.ranks[getRankIndex(wpm)]}</div>
+                  {phrasesCompleted > 0 && (
+                    <div className="rank-name">{RANK_BADGES[getRankIndex(bestWpm)]} {t.ranks[getRankIndex(bestWpm)]} · {bestWpm} {t.units.wpm}</div>
                   )}
                 </div>
                 <div className="set-row toggle">
