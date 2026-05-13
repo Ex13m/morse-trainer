@@ -282,10 +282,16 @@ export default function App() {
           setTimeout(() => { setFlashCode(null); setActiveCode(null); }, 520);
         };
         if (tab === 0) {
-          const expected = phrase.replace(/\s/g, "")[typed.replace(/\s/g, "").length] || "";
+          const pos = typed.replace(/\s/g, "").length;
+          const expected = phrase.replace(/\s/g, "")[pos] || "";
           if (ch) {
             if (ch === expected) {
-              setTyped(s => s + ch);
+              setTyped(s => {
+                let r = s + ch;
+                let idx = r.length;
+                while (idx < phrase.length && phrase[idx] === " ") { r += " "; idx++; }
+                return r;
+              });
               setFieldFlash(true);
               setTimeout(() => setFieldFlash(false), 520);
               flashChain();
