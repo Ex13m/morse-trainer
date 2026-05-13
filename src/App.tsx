@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import { MORSE_RU, MORSE_EN, PHRASES, type Lang, type Theme, type TabIndex } from "./data/morse";
 import { I18N } from "./data/i18n";
 import { useOscillator } from "./hooks/useOscillator";
+import { exportWav, decodeFile, createMicDecoder, morseToText, type MicDecoderInstance } from "./data/morseCodec";
 import {
   IconCap, IconPencil, IconCode, IconGear, IconX,
   IconSpace, IconBackspace, IconAnt,
@@ -208,6 +209,8 @@ export default function App() {
   const pressStartRef = useRef(0);
   const railIntervalRef = useRef<number>(0);
   const seqTimeoutRef = useRef<number>(0);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const micRef = useRef<MicDecoderInstance | null>(null);
   const isPlayingRef = useRef(false);
   useEffect(() => { isPlayingRef.current = isPlaying; }, [isPlaying]);
 
@@ -381,6 +384,70 @@ export default function App() {
     setTransmitIdx(-1);
   }, [wpm, codeText, map, freq, vibEnabled, osc]);
 
+  async function handleExport() {
+    const text = codeText.trim().toUpperCase();
+    if (!text) return;
+    const blob = await exportWav(text, map, { wpm, freq });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `morse-${lang.toLowerCase()}.wav`;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1500);
+  }
+
+  function handleImportClick() {
+    fileInputRef.current?.click();
+  }
+
+  async function handleImportFile(e: React.ChangeEvent<HTMLInputElement>) {
+    const f = e.target.files?.[0];
+    e.target.value = "";
+    if (!f) return;
+    try {
+      const r = await decodeFile(f);
+      if (r && r.text) {
+        setCodeText(r.text);
+        setDecodedAlpha(r.alpha as Lang);
+        if (r.alpha && r.alpha !== lang) setLang(r.alpha as Lang);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  async function handleMicToggle() {
+    if (micActive) {
+      micRef.current?.stop();
+      micRef.current = null;
+      setMicActive(false);
+      const morse = micMorse;
+      if (morse) {
+        const ru = morseToText(morse, MORSE_RU);
+        const en = morseToText(morse, MORSE_EN);
+        const best = (ru.total - ru.unknown) >= (en.total - en.unknown)
+          ? { ...ru, alpha: "RU" as Lang } : { ...en, alpha: "EN" as Lang };
+        if (best.text) {
+          setCodeText(best.text);
+          setDecodedAlpha(best.alpha);
+          if (best.alpha !== lang) setLang(best.alpha);
+        }
+      }
+      setMicMorse("");
+      return;
+    }
+    try {
+      const dec = createMicDecoder({
+        onSymbol: (_sym, full) => setMicMorse(full),
+      });
+      await dec.start();
+      micRef.current = dec;
+      setMicActive(true);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   const hintCode = tab === 0
     ? map[phrase.replace(/\s/g, "")[typed.replace(/\s/g, "").length] || ""] || null
     : null;
@@ -467,16 +534,23 @@ export default function App() {
             )}
             {tab === 2 && (
               <div className="code-tools">
-                <button className="tool-btn" disabled={!codeText.trim() || isPlaying}>
+                <button className="tool-btn" disabled={!codeText.trim() || isPlaying} onClick={handleExport}>
                   <IconDownload /><span>WAV</span>
                 </button>
-                <button className="tool-btn" disabled={isPlaying || micActive}>
+                <button className="tool-btn" disabled={isPlaying || micActive} onClick={handleImportClick}>
                   <IconUpload /><span>{lang === "RU" ? "ФАЙЛ" : "FILE"}</span>
                 </button>
-                <button className={`tool-btn ${micActive ? "on" : ""}`} disabled={isPlaying}>
+                <button className={`tool-btn ${micActive ? "on" : ""}`} disabled={isPlaying} onClick={handleMicToggle}>
                   <IconMic /><span>{micActive ? (lang === "RU" ? "СТОП" : "STOP") : (lang === "RU" ? "МИКРОФОН" : "MIC")}</span>
                 </button>
                 {decodedAlpha && <span className="alpha-badge">{decodedAlpha}</span>}
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="audio/wav,audio/mp3,audio/mpeg,audio/x-wav,audio/*"
+                  onChange={handleImportFile}
+                  style={{ display: "none" }}
+                />
               </div>
             )}
           </div>
