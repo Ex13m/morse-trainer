@@ -78,23 +78,35 @@ function MorseTree({ lang, activeCode, flashCode, rootLabel, hintCode }: {
   }
   const nodeSize = 36;
   const rootSize = 56;
+  const rootW = 90, rootH = 40;
 
   return (
     <svg className="tree-svg" viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="xMidYMid meet">
       <g className="edges">
         {edges.map((e, i) => {
           const p = positions[e.from], c = positions[e.to];
-          const fromSz = e.from === "" ? rootSize : nodeSize;
-          const x1 = px(p.x), y1 = py(p.y) + fromSz / 2 + 1;
-          const x2 = px(c.x), y2 = py(c.y) - nodeSize / 2 - 1;
+          const isFromRoot = e.from === "";
+          const fromSz = isFromRoot ? rootSize : nodeSize;
           const isActive = activeSet.has(e.to);
           const isFlash = flashSet.has(e.to);
           const isHint = hintSet.has(e.to);
           const cls = `edge ${e.isDot ? "dot" : "dash"} ${isHint ? "hint" : ""} ${isActive ? "active" : ""} ${isFlash ? "flash" : ""}`;
-          const my = (y1 + y2) / 2;
-          const d = x1 === x2
-            ? `M ${x1} ${y1} L ${x2} ${y2}`
-            : `M ${x1} ${y1} L ${x1} ${my} L ${x2} ${my} L ${x2} ${y2}`;
+
+          let d: string;
+          if (isFromRoot) {
+            const x1 = px(p.x) + (e.isDot ? -rootW / 2 - 1 : rootW / 2 + 1);
+            const y1 = py(p.y);
+            const x2 = px(c.x);
+            const y2 = py(c.y) - nodeSize / 2 - 1;
+            d = `M ${x1} ${y1} L ${x2} ${y1} L ${x2} ${y2}`;
+          } else {
+            const x1 = px(p.x), y1 = py(p.y) + fromSz / 2 + 1;
+            const x2 = px(c.x), y2 = py(c.y) - nodeSize / 2 - 1;
+            const my = (y1 + y2) / 2;
+            d = x1 === x2
+              ? `M ${x1} ${y1} L ${x2} ${y2}`
+              : `M ${x1} ${y1} L ${x1} ${my} L ${x2} ${my} L ${x2} ${y2}`;
+          }
           return <path key={i} className={cls} d={d} />;
         })}
       </g>
@@ -109,9 +121,11 @@ function MorseTree({ lang, activeCode, flashCode, rootLabel, hintCode }: {
           const isHintPath = hintSet.has(code) && !isHintTarget;
           const sz = isRoot ? rootSize : nodeSize;
           const cls = `tnode ${isRoot ? "root" : ""} ${isHintTarget ? "hint-target" : ""} ${isHintPath ? "hint-path" : ""} ${isActive ? "active" : ""} ${isFlash ? "flash" : ""} ${n.char ? "has" : "empty"}`;
+          const bw = isRoot ? rootW : sz;
+          const bh = isRoot ? rootH : sz;
           return (
             <g key={code} transform={`translate(${px(p.x)} ${py(p.y)})`} className={cls}>
-              <rect className="box" x={-sz / 2} y={-sz / 2} width={sz} height={sz} rx="4" />
+              <rect className="box" x={-bw / 2} y={-bh / 2} width={bw} height={bh} rx={isRoot ? 6 : 4} />
               {n.char != null && <text className="lbl" y={isRoot ? 5 : 10} textAnchor="middle">{n.char}</text>}
             </g>
           );
