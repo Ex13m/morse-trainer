@@ -9,6 +9,7 @@ import {
   IconSpace, IconBackspace, IconAnt,
   IconDownload, IconUpload, IconMic,
 } from "./components/Icons";
+import Splash from "./components/Splash";
 
 function buildVerticalLayout(map: Record<string, string>, rootLabel: string, maxDepth = 5) {
   const nodes: Record<string, { code: string; char: string | null; kind: string; depth: number; children: typeof nodes[string][] }> = {};
@@ -172,6 +173,7 @@ function sleep(ms: number) { return new Promise(r => setTimeout(r, ms)); }
 const TAB_ICONS = [IconCap, IconPencil, IconCode, IconGear];
 
 export default function App() {
+  const [showSplash, setShowSplash] = useState(true);
   const [lang, setLang] = useState<Lang>("RU");
   const [tab, setTab] = useState<TabIndex>(0);
   const [theme, setTheme] = useState<Theme>("mix");
@@ -455,6 +457,8 @@ export default function App() {
     : null;
 
   return (
+    <>
+    {showSplash && <Splash onDone={() => setShowSplash(false)} />}
     <div className="app">
           {/* TOP BAR */}
           <div className="topbar">
@@ -675,5 +679,6 @@ export default function App() {
             </button>
           )}
     </div>
+    </>
   );
 }
