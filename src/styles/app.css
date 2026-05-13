@@ -300,6 +300,10 @@ html, body {
   padding: 0 6px;
   z-index: 2;
 }
+.live-wpm {
+  color: var(--brass-200);
+  text-shadow: 0 0 6px rgba(217,182,110,.4);
+}
 
 /* ── THEMES SLOT ── */
 .themes-slot {

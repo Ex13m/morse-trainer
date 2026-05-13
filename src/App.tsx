@@ -344,7 +344,7 @@ export default function App() {
   // Passive WPM tracking — reacts to phraseComplete without touching typing logic
   useEffect(() => {
     if (!phraseComplete || !phrase) return;
-    const elapsed = (performance.now() - phraseStartRef.current) / 1000 / 60;
+    const elapsed = (Date.now() - phraseStartRef.current) / 1000 / 60;
     const wordCount = phrase.replace(/\s+/g, " ").trim().split(" ").length;
     const sessionWpm = elapsed > 0 ? Math.round(wordCount / elapsed) : 0;
     const oldRank = getRankIndex(bestWpm);
@@ -400,7 +400,7 @@ export default function App() {
             if (ch === expected) {
               setTyped(s => {
                 let r = s + ch;
-                if (r.length === 1) phraseStartRef.current = performance.now();
+                if (r.length === 1) phraseStartRef.current = Date.now();
                 let idx = r.length;
                 while (idx < phrase.length && phrase[idx] === " ") { r += " "; idx++; }
                 if (r.length >= phrase.length) {
@@ -595,6 +595,15 @@ export default function App() {
     }
   }
 
+  // Live WPM — only during active training
+  const liveWpm = useMemo(() => {
+    if (tab !== 0 || !typed || phraseStartRef.current === 0) return 0;
+    const elapsed = (Date.now() - phraseStartRef.current) / 1000 / 60;
+    const chars = typed.replace(/\s/g, "").length;
+    return elapsed > 0 && chars > 0 ? Math.round((chars / 5) / elapsed) : 0;
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tab, typed]);
+
   const hintCode = tab === 0
     ? map[phrase.replace(/\s/g, "")[typed.replace(/\s/g, "").length] || ""] || null
     : null;
@@ -636,7 +645,7 @@ export default function App() {
           {/* FIELD */}
           <div className="plate field">
             <span className="metastrip">
-              {tab === 0 && t.field_train}
+              {tab === 0 && <>{t.field_train}{liveWpm > 0 && <span className="live-wpm"> · {liveWpm} {t.units.wpm}</span>}</>}
               {tab === 1 && t.field_free}
               {tab === 2 && t.field_code}
               {tab === 3 && t.settings.title}
