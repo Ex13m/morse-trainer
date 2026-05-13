@@ -54,12 +54,15 @@ function MorseTree({ lang, activeCode, flashCode, rootLabel, hintCode }: {
   const map = lang === "RU" ? MORSE_RU : MORSE_EN;
   const layout = useMemo(() => buildVerticalLayout(map, rootLabel, 5), [map, rootLabel]);
   const { nodes, positions, slots, maxDepth } = layout;
-  const W = 760, H = 720;
-  const PADX = 26, PADTOP = 24, PADBOT = 64;
+  const W = 760, H = 660;
+  const PADX = 26, PADTOP = 10, PADBOT = 44;
   const cellW = (W - PADX * 2) / Math.max(1, slots - 1);
   const cellH = (H - PADTOP - PADBOT) / maxDepth;
   const px = (x: number) => PADX + x * cellW;
-  const py = (y: number) => PADTOP + y * cellH;
+  const py = (y: number) => {
+    if (y === 0) return PADTOP + cellH * 0.5;
+    return PADTOP + y * cellH;
+  };
 
   const activeSet = new Set<string>();
   if (activeCode) for (let i = 1; i <= activeCode.length; i++) activeSet.add(activeCode.slice(0, i));
