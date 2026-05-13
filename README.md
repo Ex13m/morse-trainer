@@ -1,73 +1,74 @@
-# React + TypeScript + Vite
+# Morse Trainer v2
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Тренажёр азбуки Морзе в стиле гравированного латунного радиоприёмника. Веб-приложение с четырьмя режимами работы и двуязычным интерфейсом (RU / EN).
 
-Currently, two official plugins are available:
+## Как пользоваться
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+### Общее управление
 
-## React Compiler
+- **Латунный ключ** (большая круглая кнопка внизу) — нажми и удерживай для передачи сигнала. Короткое нажатие — точка, длинное — тире.
+- **Клавиша пробел** на клавиатуре работает так же, как нажатие ключа.
+- **RU / EN** — переключатель языка вверху слева. Меняет алфавит дерева, фразы и все надписи.
+- **ПРОБЕЛ** (левая боковая кнопка) — вставляет пробел между словами.
+- **СТЕРЕТЬ** (правая боковая кнопка) — удаляет последний символ.
+- **×** (кнопка в поле ввода) — очищает текущее поле.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Режим ТРЕНИРОВКА
 
-## Expanding the ESLint configuration
+Учись передавать фразы азбукой Морзе.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+1. Выбери тему: МОРЕ, ВОЙНА, ШПИОН, SOS или МИКС.
+2. В поле ввода появится фраза — простучи её ключом.
+3. В дереве подсвечивается следующая ожидаемая буква (жёлтым пульсом).
+4. Правильная буква — зелёная вспышка, ошибка — красная.
+5. Нажми «СЛЕДУЮЩАЯ» для новой фразы.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Режим СВОБОДНЫЙ ТЕКСТ
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+Стучи что хочешь — буквы будут появляться в поле.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+1. Нажимай ключ — точки и тире.
+2. После паузы (~700 мс) последовательность распознаётся в букву.
+3. Текст накапливается в поле ввода.
+
+### Режим КОДА
+
+Передавай текст автоматически или работай с аудио-файлами.
+
+1. Набери текст в поле ввода.
+2. Нажми **ПЕРЕДАТЬ** — приложение озвучит текст и покажет анимацию в дереве.
+3. **WAV** — скачать текст как аудиофайл в формате WAV.
+4. **ФАЙЛ** — загрузить аудиофайл с кодом Морзе, приложение распознает текст и определит язык.
+5. **МИКРОФОН** — декодирование в реальном времени с микрофона.
+
+### НАСТРОЙКИ
+
+- **Частота тона** — высота звука при нажатии ключа (300–1200 Гц, по умолчанию 620).
+- **Порог тире** — длительность нажатия, после которой точка становится тире (80–500 мс, по умолчанию 260).
+- **Скорость** — скорость автоматической передачи в словах в минуту (5–40 WPM, по умолчанию 15).
+- **Вибрация** — тактильная обратная связь на мобильных устройствах.
+- **Сбросить по умолчанию** — вернуть все настройки к начальным.
+
+### Подсказки
+
+- Индикатор **КОРОТКО / ДОЛГО** в панели ключа показывает, какой символ будет зарегистрирован.
+- Полоска **threshold** визуализирует длительность нажатия — когда заполнение меняет цвет, вы перешли порог тире.
+- В тренировке дерево показывает путь от корня до ожидаемой буквы тонкой золотой подсветкой.
+
+## Разработка
+
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Технологии
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- React 19 + TypeScript
+- Vite 8
+- Web Audio API (осциллятор, WAV-синтез, декодирование)
+- CSS с дизайн-токенами (без фреймворков)
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Версия
+
+v2.0.0 — см. [CHANGELOG.md](CHANGELOG.md)
