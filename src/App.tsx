@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useMemo, useCallback } from "react";
-import { MORSE_MAPS, PHRASES, type Lang, type Theme, type TabIndex } from "./data/morse";
+import { MORSE_MAPS, type Lang, type Theme, type TabIndex } from "./data/morse";
+import { generatePhrase } from "./data/phraseGen";
 import { I18N } from "./data/i18n";
 import { useOscillator } from "./hooks/useOscillator";
 import { useUpdateCheck } from "./hooks/useUpdateCheck";
@@ -187,6 +188,26 @@ function Scope({ active, seq }: { active: boolean; seq: string }) {
 
 function sleep(ms: number) { return new Promise(r => setTimeout(r, ms)); }
 
+function playVictorySound() {
+  try {
+    const C = window.AudioContext || (window as any).webkitAudioContext;
+    const ctx = new C();
+    const notes = [523, 659, 784, 1047];
+    notes.forEach((freq, i) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = "sine";
+      osc.frequency.value = freq;
+      gain.gain.setValueAtTime(0.15, ctx.currentTime + i * 0.12);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.12 + 0.3);
+      osc.connect(gain).connect(ctx.destination);
+      osc.start(ctx.currentTime + i * 0.12);
+      osc.stop(ctx.currentTime + i * 0.12 + 0.3);
+    });
+    setTimeout(() => ctx.close(), 1500);
+  } catch { /* no audio */ }
+}
+
 const TAB_ICONS = [IconCap, IconPencil, IconCode, IconGear];
 
 export default function App() {
@@ -211,6 +232,7 @@ export default function App() {
   const [decodedAlpha, setDecodedAlpha] = useState<Lang | null>(null);
   const [micActive, setMicActive] = useState(false);
   const [micMorse, setMicMorse] = useState("");
+  const [phraseComplete, setPhraseComplete] = useState(false);
 
   const [freq, setFreq] = useState(620);
   const [threshold, setThreshold] = useState(260);
@@ -237,16 +259,12 @@ export default function App() {
   useEffect(() => { isPlayingRef.current = isPlaying; }, [isPlaying]);
 
   const pickNewPhrase = useCallback(() => {
-    const pool = PHRASES[lang];
-    const list = theme === "mix"
-      ? Object.values(pool).flat()
-      : pool[theme] || [];
-    const next = list[Math.floor(Math.random() * list.length)] || "SOS";
-    setPhrase(next);
+    setPhrase(generatePhrase(lang, theme));
     setTyped("");
     setActiveCode(null);
     setCurrentSeq("");
     setFlashCode(null);
+    setPhraseComplete(false);
   }, [lang, theme]);
 
   useEffect(() => { if (tab === 0) pickNewPhrase(); }, [lang, theme, tab, pickNewPhrase]);
@@ -290,6 +308,11 @@ export default function App() {
                 let r = s + ch;
                 let idx = r.length;
                 while (idx < phrase.length && phrase[idx] === " ") { r += " "; idx++; }
+                if (r.length >= phrase.length) {
+                  setPhraseComplete(true);
+                  playVictorySound();
+                  setTimeout(pickNewPhrase, 2400);
+                }
                 return r;
               });
               setFieldFlash(true);
@@ -705,6 +728,15 @@ export default function App() {
             <div className="letterpop wrong">
               <span className="letterpop-glyph">{code2char[wrongCode]}</span>
               <span className="letterpop-code">{wrongCode.replace(/\./g, "•").replace(/-/g, "━")}</span>
+            </div>
+          )}
+
+          {phraseComplete && (
+            <div className="victory">
+              <span className="victory-icon">✓</span>
+              <span className="victory-text">
+                {({ RU: "ОТЛИЧНО!", EN: "GREAT!", ES: "EXCELENTE!", DE: "SUPER!" })[lang]}
+              </span>
             </div>
           )}
 
