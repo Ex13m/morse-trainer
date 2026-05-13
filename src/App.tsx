@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useMemo, useCallback } from "react";
-import { MORSE_RU, MORSE_EN, MORSE_ES, MORSE_DE, MORSE_MAPS, PHRASES, type Lang, type Theme, type TabIndex } from "./data/morse";
+import { MORSE_MAPS, PHRASES, type Lang, type Theme, type TabIndex } from "./data/morse";
 import { I18N } from "./data/i18n";
 import { useOscillator } from "./hooks/useOscillator";
 import { useUpdateCheck } from "./hooks/useUpdateCheck";
