@@ -8,6 +8,8 @@ const base = {
   units: { hz: "", ms: "", wpm: "" },
   root: "",
   langName: "",
+  ranks: ["", "", "", "", "", "", ""] as string[],
+  rankUp: "",
 };
 
 type I18NEntry = typeof base;
@@ -33,6 +35,8 @@ export const I18N: Record<string, I18NEntry> = {
     units: { hz: "ГЦ", ms: "МС", wpm: "СЛОВ/МИН" },
     root: "СТАРТ",
     langName: "РУС",
+    ranks: ["ЮНГА", "МАТРОС", "ШТУРМАН", "РАДИСТ", "КАПИТАН", "КОМАНДОР", "АДМИРАЛ"],
+    rankUp: "НОВЫЙ РАНГ!",
   },
   EN: {
     tabs: ["TRAINING", "FREE TEXT", "CODE MODE", "SETTINGS"],
@@ -54,6 +58,8 @@ export const I18N: Record<string, I18NEntry> = {
     units: { hz: "HZ", ms: "MS", wpm: "WPM" },
     root: "START",
     langName: "ENG",
+    ranks: ["CADET", "SAILOR", "NAVIGATOR", "OPERATOR", "CAPTAIN", "COMMANDER", "ADMIRAL"],
+    rankUp: "RANK UP!",
   },
   ES: {
     tabs: ["PRÁCTICA", "TEXTO LIBRE", "MODO CÓDIGO", "AJUSTES"],
@@ -75,6 +81,8 @@ export const I18N: Record<string, I18NEntry> = {
     units: { hz: "HZ", ms: "MS", wpm: "PPM" },
     root: "INICIO",
     langName: "ESP",
+    ranks: ["CADETE", "MARINERO", "NAVEGANTE", "OPERADOR", "CAPITÁN", "COMANDANTE", "ALMIRANTE"],
+    rankUp: "¡NUEVO RANGO!",
   },
   DE: {
     tabs: ["TRAINING", "FREITEXT", "CODE-MODUS", "EINSTELLUNG"],
@@ -96,5 +104,7 @@ export const I18N: Record<string, I18NEntry> = {
     units: { hz: "HZ", ms: "MS", wpm: "WPM" },
     root: "START",
     langName: "DEU",
+    ranks: ["KADETT", "MATROSE", "STEUERMANN", "FUNKER", "KAPITÄN", "KOMMANDANT", "ADMIRAL"],
+    rankUp: "NEUER RANG!",
   },
 };
