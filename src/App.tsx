@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import { MORSE_RU, MORSE_EN, PHRASES, type Lang, type Theme, type TabIndex } from "./data/morse";
 import { I18N } from "./data/i18n";
 import { useOscillator } from "./hooks/useOscillator";
+import { useUpdateCheck } from "./hooks/useUpdateCheck";
 import { exportWav, decodeFile, createMicDecoder, morseToText, type MicDecoderInstance } from "./data/morseCodec";
 import {
   IconCap, IconPencil, IconCode, IconGear, IconX,
@@ -195,6 +196,8 @@ export default function App() {
   const [threshold, setThreshold] = useState(260);
   const [wpm, setWpm] = useState(15);
   const [vibEnabled, setVibEnabled] = useState(true);
+
+  const { updateAvailable, reload } = useUpdateCheck();
 
   const t = I18N[lang];
   const map = lang === "RU" ? MORSE_RU : MORSE_EN;
@@ -664,6 +667,12 @@ export default function App() {
               <span className="letterpop-glyph">{code2char[wrongCode]}</span>
               <span className="letterpop-code">{wrongCode.replace(/\./g, "•").replace(/-/g, "━")}</span>
             </div>
+          )}
+
+          {updateAvailable && (
+            <button className="update-banner" onClick={reload}>
+              {lang === "RU" ? "ДОСТУПНО ОБНОВЛЕНИЕ — НАЖМИТЕ" : "UPDATE AVAILABLE — TAP"}
+            </button>
           )}
     </div>
   );

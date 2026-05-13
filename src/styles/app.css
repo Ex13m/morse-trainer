@@ -697,6 +697,26 @@ html, body {
   color: #e88a78;
   text-shadow: 0 0 12px rgba(232,138,120,.55);
 }
+/* ── UPDATE BANNER ── */
+.update-banner {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  z-index: 20;
+  border: 0; cursor: pointer;
+  background: linear-gradient(180deg, var(--brass-300), var(--brass-500));
+  color: var(--bg-0);
+  font: 700 12px var(--mono);
+  letter-spacing: .22em;
+  padding: 14px 16px;
+  text-align: center;
+  box-shadow: 0 -4px 20px rgba(217,182,110,.4);
+  animation: bannerSlide .4s ease;
+}
+.update-banner:active { filter: brightness(1.15); }
+@keyframes bannerSlide {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+
 @keyframes letterpop {
   0%   { opacity: 0; transform: translate(-50%, -50%) scale(.6); }
   18%  { opacity: 1; transform: translate(-50%, -50%) scale(1.08); }
