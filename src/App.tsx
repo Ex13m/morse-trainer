@@ -7,7 +7,6 @@ import {
   IconCap, IconPencil, IconCode, IconGear, IconX,
   IconSpace, IconBackspace, IconAnt,
   IconDownload, IconUpload, IconMic,
-  Sig, Wifi, Batt,
 } from "./components/Icons";
 
 function buildVerticalLayout(map: Record<string, string>, rootLabel: string, maxDepth = 5) {
@@ -453,15 +452,7 @@ export default function App() {
     : null;
 
   return (
-    <div className="workbench">
-      <div className="device">
-        <div className="statusbar">
-          <span>9:41</span>
-          <span className="notch" />
-          <span className="right"><Sig /><Wifi /><Batt /></span>
-        </div>
-
-        <div className="app">
+    <div className="app">
           {/* TOP BAR */}
           <div className="topbar">
             <div className="plate lang">
@@ -674,8 +665,6 @@ export default function App() {
               <span className="letterpop-code">{wrongCode.replace(/\./g, "•").replace(/-/g, "━")}</span>
             </div>
           )}
-        </div>
-      </div>
     </div>
   );
 }
