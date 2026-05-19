@@ -534,14 +534,23 @@ export default function App() {
     rec.continuous = true;
     rec.interimResults = true;
     rec.onresult = (e: SpeechRecognitionEvent) => {
-      let text = "";
+      let finalText = "";
+      let interimText = "";
       for (let i = 0; i < e.results.length; i++) {
-        text += e.results[i][0].transcript;
+        if (e.results[i].isFinal) {
+          finalText += e.results[i][0].transcript + " ";
+        } else {
+          interimText += e.results[i][0].transcript;
+        }
       }
-      setCodeText(text.toUpperCase());
+      setCodeText((finalText + interimText).trimEnd().toUpperCase());
     };
     rec.onerror = () => { setVoiceActive(false); voiceRef.current = null; };
-    rec.onend = () => { if (voiceRef.current) { setVoiceActive(false); voiceRef.current = null; } };
+    rec.onend = () => {
+      if (voiceRef.current) {
+        try { rec.start(); } catch { setVoiceActive(false); voiceRef.current = null; }
+      }
+    };
     rec.start();
     voiceRef.current = rec;
     setVoiceActive(true);
