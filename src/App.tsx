@@ -243,6 +243,7 @@ export default function App() {
   const [phraseComplete, setPhraseComplete] = useState(false);
   const [voiceActive, setVoiceActive] = useState(false);
   const voiceRef = useRef<SpeechRecognition | null>(null);
+  const voiceAccRef = useRef("");
 
   const [freq, setFreq] = useState(_saved.current?.freq ?? 620);
   const [threshold, setThreshold] = useState(_saved.current?.threshold ?? 260);
@@ -529,21 +530,21 @@ export default function App() {
     }
     const SR = window.SpeechRecognition || (window as unknown as { webkitSpeechRecognition: typeof SpeechRecognition }).webkitSpeechRecognition;
     if (!SR) return;
+    voiceAccRef.current = "";
     const rec = new SR();
     rec.lang = ({ RU: "ru-RU", EN: "en-US", ES: "es-ES", DE: "de-DE" })[lang];
-    rec.continuous = true;
+    rec.continuous = false;
     rec.interimResults = true;
     rec.onresult = (e: SpeechRecognitionEvent) => {
-      let finalText = "";
-      let interimText = "";
+      let interim = "";
       for (let i = 0; i < e.results.length; i++) {
         if (e.results[i].isFinal) {
-          finalText += e.results[i][0].transcript + " ";
+          voiceAccRef.current += e.results[i][0].transcript + " ";
         } else {
-          interimText += e.results[i][0].transcript;
+          interim += e.results[i][0].transcript;
         }
       }
-      setCodeText((finalText + interimText).trimEnd().toUpperCase());
+      setCodeText((voiceAccRef.current + interim).trimEnd().toUpperCase());
     };
     rec.onerror = () => { setVoiceActive(false); voiceRef.current = null; };
     rec.onend = () => {
