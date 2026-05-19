@@ -73,6 +73,16 @@ export const IconMic = (p: P) => (
   </svg>
 );
 
+export const IconVoice = (p: P) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" {...p}>
+    <rect x="9" y="3" width="6" height="12" rx="3" />
+    <path d="M5 11a7 7 0 0 0 14 0" />
+    <path d="M12 18v1" />
+    <path d="M3 21h4l2-3" />
+    <path d="M21 21h-4l-2-3" />
+  </svg>
+);
+
 export const IconGlobe = (p: P) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" {...p}>
     <circle cx="12" cy="12" r="10" />

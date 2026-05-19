@@ -8,7 +8,7 @@ import { exportWav, decodeFile, createMicDecoder, morseToText, type MicDecoderIn
 import {
   IconCap, IconPencil, IconCode, IconGear, IconX,
   IconSpace, IconBackspace, IconAnt, IconGlobe,
-  IconDownload, IconUpload, IconMic,
+  IconDownload, IconUpload, IconMic, IconVoice,
 } from "./components/Icons";
 import Splash from "./components/Splash";
 
@@ -241,6 +241,8 @@ export default function App() {
   const [micActive, setMicActive] = useState(false);
   const [micMorse, setMicMorse] = useState("");
   const [phraseComplete, setPhraseComplete] = useState(false);
+  const [voiceActive, setVoiceActive] = useState(false);
+  const voiceRef = useRef<SpeechRecognition | null>(null);
 
   const [freq, setFreq] = useState(_saved.current?.freq ?? 620);
   const [threshold, setThreshold] = useState(_saved.current?.threshold ?? 260);
@@ -518,6 +520,33 @@ export default function App() {
     }
   }
 
+  function handleVoiceToggle() {
+    if (voiceActive) {
+      voiceRef.current?.stop();
+      voiceRef.current = null;
+      setVoiceActive(false);
+      return;
+    }
+    const SR = window.SpeechRecognition || (window as unknown as { webkitSpeechRecognition: typeof SpeechRecognition }).webkitSpeechRecognition;
+    if (!SR) return;
+    const rec = new SR();
+    rec.lang = ({ RU: "ru-RU", EN: "en-US", ES: "es-ES", DE: "de-DE" })[lang];
+    rec.continuous = true;
+    rec.interimResults = true;
+    rec.onresult = (e: SpeechRecognitionEvent) => {
+      let text = "";
+      for (let i = 0; i < e.results.length; i++) {
+        text += e.results[i][0].transcript;
+      }
+      setCodeText(text.toUpperCase());
+    };
+    rec.onerror = () => { setVoiceActive(false); voiceRef.current = null; };
+    rec.onend = () => { if (voiceRef.current) { setVoiceActive(false); voiceRef.current = null; } };
+    rec.start();
+    voiceRef.current = rec;
+    setVoiceActive(true);
+  }
+
   const hintCode = tab === 0
     ? map[phrase.replace(/\s/g, "")[typed.replace(/\s/g, "").length] || ""] || null
     : null;
@@ -614,8 +643,11 @@ export default function App() {
                 <button className="tool-btn" disabled={isPlaying || micActive} onClick={handleImportClick}>
                   <IconUpload /><span>{({ RU: "ФАЙЛ", EN: "FILE", ES: "ARCHIVO", DE: "DATEI" })[lang]}</span>
                 </button>
-                <button className={`tool-btn ${micActive ? "on" : ""}`} disabled={isPlaying} onClick={handleMicToggle}>
-                  <IconMic /><span>{micActive ? t.stop.replace("■ ", "") : ({ RU: "МИКРОФОН", EN: "MIC", ES: "MICRO", DE: "MIKRO" })[lang]}</span>
+                <button className={`tool-btn ${micActive ? "on" : ""}`} disabled={isPlaying || voiceActive} onClick={handleMicToggle}>
+                  <IconMic /><span>{micActive ? t.stop.replace("■ ", "") : ({ RU: "МОРЗЕ", EN: "MORSE", ES: "MORSE", DE: "MORSE" })[lang]}</span>
+                </button>
+                <button className={`tool-btn ${voiceActive ? "on" : ""}`} disabled={isPlaying || micActive} onClick={handleVoiceToggle}>
+                  <IconVoice /><span>{voiceActive ? t.stop.replace("■ ", "") : ({ RU: "ГОЛОС", EN: "VOICE", ES: "VOZ", DE: "STIMME" })[lang]}</span>
                 </button>
                 {decodedAlpha && <span className="alpha-badge">{decodedAlpha}</span>}
                 <input
