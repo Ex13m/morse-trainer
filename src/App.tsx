@@ -257,6 +257,13 @@ export default function App() {
     try { localStorage.setItem(LS_KEY, JSON.stringify({ freq, threshold, wpm, vibEnabled, lang, theme })); } catch { /* noop */ }
   }, [freq, threshold, wpm, vibEnabled, lang, theme]);
 
+  // Auto-scroll code input to the end during voice dictation
+  useEffect(() => {
+    if (voiceActive && codeInputRef.current) {
+      codeInputRef.current.scrollLeft = codeInputRef.current.scrollWidth;
+    }
+  }, [codeText, voiceActive]);
+
   const t = I18N[lang];
   const map = MORSE_MAPS[lang];
   const code2char = useMemo(() => {
@@ -270,6 +277,7 @@ export default function App() {
   const railIntervalRef = useRef<number>(0);
   const seqTimeoutRef = useRef<number>(0);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const codeInputRef = useRef<HTMLInputElement>(null);
   const micRef = useRef<MicDecoderInstance | null>(null);
   const isPlayingRef = useRef(false);
   useEffect(() => { isPlayingRef.current = isPlaying; }, [isPlaying]);
@@ -619,7 +627,7 @@ export default function App() {
                   <span className="cursor" />
                 </span>
               ) : (
-                <input value={codeText} onChange={e => setCodeText(e.target.value.toUpperCase())} placeholder={t.field_code} />
+                <input ref={codeInputRef} value={codeText} onChange={e => setCodeText(e.target.value.toUpperCase())} placeholder={t.field_code} />
               )
             )}
             {tab === 3 && <span className="display">{t.settings.title}</span>}
