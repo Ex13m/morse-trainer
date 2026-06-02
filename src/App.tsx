@@ -313,7 +313,7 @@ export default function App() {
   useEffect(() => { if (tab === 0) pickNewPhrase(); }, [lang, theme, tab, pickNewPhrase]);
 
   useEffect(() => {
-    const defaults: Record<Lang, string> = { RU: "ПРИВЕТ МИР", EN: "HELLO WORLD", ES: "HOLA MUNDO", DE: "HALLO WELT" };
+    const defaults: Record<Lang, string> = { RU: "ПРИВЕТ МИР", EN: "HELLO WORLD", ES: "HOLA MUNDO", DE: "HALLO WELT", FR: "BONJOUR MONDE", IT: "CIAO MONDO", PT: "OLA MUNDO" };
     setCodeText(defaults[lang]);
   }, [lang]);
 
@@ -537,7 +537,7 @@ export default function App() {
       setMicActive(false);
       const morse = micMorse;
       if (morse) {
-        const candidates = (["RU", "EN", "ES", "DE"] as Lang[]).map(a => ({
+        const candidates = (["RU", "EN", "ES", "DE", "FR", "IT", "PT"] as Lang[]).map(a => ({
           ...morseToText(morse, MORSE_MAPS[a]), alpha: a,
         }));
         const best = candidates.reduce((a, b) => (b.total - b.unknown) > (a.total - a.unknown) ? b : a);
@@ -573,7 +573,7 @@ export default function App() {
     if (!SR) return;
     voiceAccRef.current = "";
     const rec = new SR();
-    rec.lang = ({ RU: "ru-RU", EN: "en-US", ES: "es-ES", DE: "de-DE" })[lang];
+    rec.lang = ({ RU: "ru-RU", EN: "en-US", ES: "es-ES", DE: "de-DE", FR: "fr-FR", IT: "it-IT", PT: "pt-PT" })[lang];
     rec.continuous = false;
     rec.interimResults = true;
     rec.onresult = (e: SpeechRecognitionEvent) => {
@@ -613,7 +613,7 @@ export default function App() {
               <span className="lang-label">{t.langName}</span>
               {langOpen && (
                 <div className="lang-popup">
-                  {(["RU", "EN", "ES", "DE"] as Lang[]).map(l => (
+                  {(["RU", "EN", "ES", "DE", "FR", "IT", "PT"] as Lang[]).map(l => (
                     <button key={l} className={lang === l ? "on" : ""} onClick={(e) => { e.stopPropagation(); setLang(l); setLangOpen(false); }}>
                       {I18N[l].langName}
                     </button>
@@ -656,7 +656,7 @@ export default function App() {
                 <span className="display code-display">
                   {micMorse
                     ? <span className="pending">{micMorse.replace(/\./g, "•").replace(/-/g, "━").replace(/\//g, " / ")}</span>
-                    : <span className="placeholder">{({ RU: "Слушаю…", EN: "Listening…", ES: "Escuchando…", DE: "Höre…" })[lang]}</span>}
+                    : <span className="placeholder">{({ RU: "Слушаю…", EN: "Listening…", ES: "Escuchando…", DE: "Höre…", FR: "Ecoute…", IT: "Ascolto…", PT: "Ouvindo…" })[lang]}</span>}
                   <span className="cursor" />
                 </span>
               ) : (
@@ -692,13 +692,13 @@ export default function App() {
                   <IconDownload /><span>WAV</span>
                 </button>
                 <button className="tool-btn" disabled={isPlaying || micActive} onClick={handleImportClick}>
-                  <IconUpload /><span>{({ RU: "ФАЙЛ", EN: "FILE", ES: "ARCHIVO", DE: "DATEI" })[lang]}</span>
+                  <IconUpload /><span>{({ RU: "ФАЙЛ", EN: "FILE", ES: "ARCHIVO", DE: "DATEI", FR: "FICHIER", IT: "FILE", PT: "ARQUIVO" })[lang]}</span>
                 </button>
                 <button className={`tool-btn ${micActive ? "on" : ""}`} disabled={isPlaying || voiceActive} onClick={handleMicToggle}>
-                  <IconMic /><span>{micActive ? t.stop.replace("■ ", "") : ({ RU: "МОРЗЕ", EN: "MORSE", ES: "MORSE", DE: "MORSE" })[lang]}</span>
+                  <IconMic /><span>{micActive ? t.stop.replace("■ ", "") : ({ RU: "МОРЗЕ", EN: "MORSE", ES: "MORSE", DE: "MORSE", FR: "MORSE", IT: "MORSE", PT: "MORSE" })[lang]}</span>
                 </button>
                 <button className={`tool-btn ${voiceActive ? "on" : ""}`} disabled={isPlaying || micActive} onClick={handleVoiceToggle}>
-                  <IconVoice /><span>{voiceActive ? t.stop.replace("■ ", "") : ({ RU: "ГОЛОС", EN: "VOICE", ES: "VOZ", DE: "STIMME" })[lang]}</span>
+                  <IconVoice /><span>{voiceActive ? t.stop.replace("■ ", "") : ({ RU: "ГОЛОС", EN: "VOICE", ES: "VOZ", DE: "STIMME", FR: "VOIX", IT: "VOCE", PT: "VOZ" })[lang]}</span>
                 </button>
                 {decodedAlpha && <span className="alpha-badge">{decodedAlpha}</span>}
                 <input
@@ -752,7 +752,7 @@ export default function App() {
                   <div className={`switch ${vibEnabled ? "on" : ""}`} onClick={() => setVibEnabled(v => !v)} />
                 </div>
                 <button className="set-reset" onClick={() => { setFreq(850); setThreshold(140); setWpm(10); setVibEnabled(true); }}>
-                  {({ RU: "СБРОСИТЬ ПО УМОЛЧАНИЮ", EN: "RESET TO DEFAULTS", ES: "RESTABLECER", DE: "ZURÜCKSETZEN" })[lang]}
+                  {({ RU: "СБРОСИТЬ ПО УМОЛЧАНИЮ", EN: "RESET TO DEFAULTS", ES: "RESTABLECER", DE: "ZURÜCKSETZEN", FR: "REINITIALISER", IT: "RIPRISTINA", PT: "RESTAURAR" })[lang]}
                 </button>
                 <div className="set-footer">MORSE TRAINER · v2</div>
               </div>
@@ -836,14 +836,14 @@ export default function App() {
             <div className="victory">
               <span className="victory-icon">✓</span>
               <span className="victory-text">
-                {({ RU: "ОТЛИЧНО!", EN: "GREAT!", ES: "EXCELENTE!", DE: "SUPER!" })[lang]}
+                {({ RU: "ОТЛИЧНО!", EN: "GREAT!", ES: "EXCELENTE!", DE: "SUPER!", FR: "BRAVO!", IT: "OTTIMO!", PT: "OTIMO!" })[lang]}
               </span>
             </div>
           )}
 
           {updateAvailable && (
             <button className="update-banner" onClick={reload}>
-              {({ RU: "ОБНОВЛЕНИЕ — НАЖМИТЕ", EN: "UPDATE — TAP", ES: "ACTUALIZAR — PULSE", DE: "UPDATE — TIPPEN" })[lang]}
+              {({ RU: "ОБНОВЛЕНИЕ — НАЖМИТЕ", EN: "UPDATE — TAP", ES: "ACTUALIZAR — PULSE", DE: "UPDATE — TIPPEN", FR: "MISE A JOUR — APPUYEZ", IT: "AGGIORNA — TOCCA", PT: "ATUALIZAR — TOQUE" })[lang]}
             </button>
           )}
     </div>

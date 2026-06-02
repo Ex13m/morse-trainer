@@ -40,8 +40,39 @@ export const MORSE_DE: Record<string, string> = {
   "5": ".....", "6": "-....", "7": "--...", "8": "---..", "9": "----.",
 };
 
+export const MORSE_FR: Record<string, string> = {
+  A: ".-", B: "-...", C: "-.-.", D: "-..", E: ".", F: "..-.",
+  G: "--.", H: "....", I: "..", J: ".---", K: "-.-", L: ".-..",
+  M: "--", N: "-.", O: "---", P: ".--.", Q: "--.-", R: ".-.",
+  S: "...", T: "-", U: "..-", V: "...-", W: ".--", X: "-..-",
+  Y: "-.--", Z: "--..",
+  "0": "-----", "1": ".----", "2": "..---", "3": "...--", "4": "....-",
+  "5": ".....", "6": "-....", "7": "--...", "8": "---..", "9": "----.",
+};
+
+export const MORSE_IT: Record<string, string> = {
+  A: ".-", B: "-...", C: "-.-.", D: "-..", E: ".", F: "..-.",
+  G: "--.", H: "....", I: "..", J: ".---", K: "-.-", L: ".-..",
+  M: "--", N: "-.", O: "---", P: ".--.", Q: "--.-", R: ".-.",
+  S: "...", T: "-", U: "..-", V: "...-", W: ".--", X: "-..-",
+  Y: "-.--", Z: "--..",
+  "0": "-----", "1": ".----", "2": "..---", "3": "...--", "4": "....-",
+  "5": ".....", "6": "-....", "7": "--...", "8": "---..", "9": "----.",
+};
+
+export const MORSE_PT: Record<string, string> = {
+  A: ".-", B: "-...", C: "-.-.", D: "-..", E: ".", F: "..-.",
+  G: "--.", H: "....", I: "..", J: ".---", K: "-.-", L: ".-..",
+  M: "--", N: "-.", O: "---", P: ".--.", Q: "--.-", R: ".-.",
+  S: "...", T: "-", U: "..-", V: "...-", W: ".--", X: "-..-",
+  Y: "-.--", Z: "--..",
+  "0": "-----", "1": ".----", "2": "..---", "3": "...--", "4": "....-",
+  "5": ".....", "6": "-....", "7": "--...", "8": "---..", "9": "----.",
+};
+
 export const MORSE_MAPS: Record<Lang, Record<string, string>> = {
   RU: MORSE_RU, EN: MORSE_EN, ES: MORSE_ES, DE: MORSE_DE,
+  FR: MORSE_FR, IT: MORSE_IT, PT: MORSE_PT,
 };
 
 export const PHRASES: Record<Lang, Record<string, string[]>> = {
@@ -81,8 +112,35 @@ export const PHRASES: Record<Lang, Record<string, string[]>> = {
     space: ["IN UMLAUFBAHN", "ANDOCKEN IN EINER STUNDE", "SCHWERELOSIGKEIT", "KONTAKT ZUR ERDE", "ASTEROID NAH"],
     animal: ["DER WOLF HEULT", "DER ADLER FLIEGT", "DER BÄR SCHLÄFT", "DER DELFIN SCHWIMMT", "DIE EULE SIEHT"],
   },
+  FR: {
+    sea: ["PHARE EN VUE", "BRUME A TRIBORD", "CAP AU NORD", "COTE ICI BATEAU", "SOS", "TEMPETE FORCE SIX"],
+    war: ["FEU SUR SECTEUR", "RENFORTS EN ROUTE", "POSITION TENUE", "SILENCE RADIO", "REPLI"],
+    spy: ["LE CORBEAU A VOLE", "LA LUNE EST HAUTE", "CONTACT ROMPU", "MISSION TERMINEE", "GRILLE"],
+    sos: ["SOS", "AU SECOURS", "FEU A BORD", "PERTE ALTITUDE"],
+    pirate: ["TRESOR SUR ILE", "HISSER LES VOILES", "TOUT LE MONDE SUR PONT", "COFFRE EN OR", "BON VENT"],
+    space: ["EN ORBITE", "AMARRAGE DANS UNE HEURE", "APESANTEUR", "CONTACT AVEC TERRE", "ASTEROIDE PROCHE"],
+    animal: ["LE LOUP HURLE", "AIGLE EN VOL", "OURS QUI DORT", "DAUPHIN QUI NAGE", "HIBOU QUI VOIT"],
+  },
+  IT: {
+    sea: ["FARO IN VISTA", "NEBBIA A PRUA", "ROTTA A NORD", "COSTA QUI BARCA", "SOS", "TEMPESTA FORZA SEI"],
+    war: ["FUOCO SUL SETTORE", "RINFORZI IN ARRIVO", "POSIZIONE TENUTA", "SILENZIO RADIO", "RITIRATA"],
+    spy: ["IL CORVO HA VOLATO", "LA LUNA E ALTA", "CONTATTO PERSO", "MISSIONE FINITA", "BRUCIATO"],
+    sos: ["SOS", "AIUTO", "FUOCO A BORDO", "PERDIAMO QUOTA"],
+    pirate: ["TESORO SULLA ISOLA", "ISSARE LE VELE", "TUTTI SUL PONTE", "CASSA ORO", "BUON VENTO"],
+    space: ["IN ORBITA", "ATTRACCO TRA UN ORA", "ASSENZA GRAVITA", "CONTATTO CON TERRA", "ASTEROIDE VICINO"],
+    animal: ["IL LUPO ULULA", "AQUILA IN VOLO", "ORSO CHE DORME", "DELFINO CHE NUOTA", "GUFO CHE VEDE"],
+  },
+  PT: {
+    sea: ["FAROL A VISTA", "NEVOEIRO A PROA", "RUMO AO NORTE", "COSTA AQUI BARCO", "SOS", "TEMPESTADE FORCA SEIS"],
+    war: ["FOGO NO SETOR", "REFORCOS A CAMINHO", "POSICAO MANTIDA", "SILENCIO DE RADIO", "RETIRADA"],
+    spy: ["O CORVO VOOU", "A LUA SUBIU", "CONTATO PERDIDO", "MISSAO COMPLETA", "QUEIMADO"],
+    sos: ["SOS", "SOCORRO", "FOGO A BORDO", "PERDENDO ALTITUDE"],
+    pirate: ["TESOURO NA ILHA", "ICAR AS VELAS", "TODOS NO CONVES", "BAU DE OURO", "BOM VENTO"],
+    space: ["EM ORBITA", "ACOPLAGEM EM UMA HORA", "GRAVIDADE ZERO", "CONTATO COM TERRA", "ASTEROIDE PERTO"],
+    animal: ["O LOBO UIVA", "AGUIA EM VOO", "URSO DORMINDO", "GOLFINHO NADANDO", "CORUJA QUE VE"],
+  },
 };
 
-export type Lang = "RU" | "EN" | "ES" | "DE";
+export type Lang = "RU" | "EN" | "ES" | "DE" | "FR" | "IT" | "PT";
 export type Theme = "sea" | "war" | "spy" | "sos" | "pirate" | "space" | "animal" | "mix";
 export type TabIndex = 0 | 1 | 2 | 3;
