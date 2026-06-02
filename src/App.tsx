@@ -212,8 +212,12 @@ const TAB_ICONS = [IconCap, IconPencil, IconCode, IconGear];
 
 /* ── localStorage helpers ── */
 const LS_KEY = "morse-prefs";
+const LS_STATS = "morse-stats";
 function loadPrefs(): { freq: number; threshold: number; wpm: number; vibEnabled: boolean; lang: Lang; theme: Theme } | null {
   try { const r = localStorage.getItem(LS_KEY); return r ? JSON.parse(r) : null; } catch { return null; }
+}
+function loadStats(): { bestWpm: number; lastWpm: number; phrasesCompleted: number } {
+  try { const r = localStorage.getItem(LS_STATS); return r ? JSON.parse(r) : { bestWpm: 0, lastWpm: 0, phrasesCompleted: 0 }; } catch { return { bestWpm: 0, lastWpm: 0, phrasesCompleted: 0 }; }
 }
 
 export default function App() {
@@ -245,6 +249,14 @@ export default function App() {
   const voiceRef = useRef<SpeechRecognition | null>(null);
   const voiceAccRef = useRef("");
 
+  // WPM tracking
+  const _stats = useRef(loadStats());
+  const [bestWpm, setBestWpm] = useState(_stats.current.bestWpm);
+  const [lastWpm, setLastWpm] = useState(_stats.current.lastWpm);
+  const [phrasesCompleted, setPhrasesCompleted] = useState(_stats.current.phrasesCompleted);
+  const phraseStartRef = useRef(0);
+  const letterCountRef = useRef(0);
+
   const [freq, setFreq] = useState(_saved.current?.freq ?? 850);
   const [threshold, setThreshold] = useState(_saved.current?.threshold ?? 140);
   const [wpm, setWpm] = useState(_saved.current?.wpm ?? 10);
@@ -256,6 +268,11 @@ export default function App() {
   useEffect(() => {
     try { localStorage.setItem(LS_KEY, JSON.stringify({ freq, threshold, wpm, vibEnabled, lang, theme })); } catch { /* noop */ }
   }, [freq, threshold, wpm, vibEnabled, lang, theme]);
+
+  // Save stats to localStorage
+  useEffect(() => {
+    try { localStorage.setItem(LS_STATS, JSON.stringify({ bestWpm, lastWpm, phrasesCompleted })); } catch { /* noop */ }
+  }, [bestWpm, lastWpm, phrasesCompleted]);
 
   // Auto-scroll code input to the end during voice dictation
   useEffect(() => {
@@ -289,6 +306,8 @@ export default function App() {
     setCurrentSeq("");
     setFlashCode(null);
     setPhraseComplete(false);
+    phraseStartRef.current = 0;
+    letterCountRef.current = 0;
   }, [lang, theme]);
 
   useEffect(() => { if (tab === 0) pickNewPhrase(); }, [lang, theme, tab, pickNewPhrase]);
@@ -331,11 +350,25 @@ export default function App() {
           const expected = phrase.replace(/\s/g, "")[pos] || "";
           if (ch) {
             if (ch === expected) {
+              // WPM tracking: start timer on first correct letter
+              if (!phraseStartRef.current) phraseStartRef.current = performance.now();
+              letterCountRef.current++;
               setTyped(s => {
                 let r = s + ch;
                 let idx = r.length;
                 while (idx < phrase.length && phrase[idx] === " ") { r += " "; idx++; }
                 if (r.length >= phrase.length) {
+                  // Calculate WPM: PARIS standard (1 word = 5 chars)
+                  const elapsed = (performance.now() - phraseStartRef.current) / 60000;
+                  if (elapsed > 0) {
+                    const words = letterCountRef.current / 5;
+                    const wpmResult = Math.round(words / elapsed);
+                    setLastWpm(wpmResult);
+                    setBestWpm((prev: number) => Math.max(prev, wpmResult));
+                    setPhrasesCompleted((c: number) => c + 1);
+                  }
+                  phraseStartRef.current = 0;
+                  letterCountRef.current = 0;
                   setPhraseComplete(true);
                   playVictorySound();
                   setTimeout(pickNewPhrase, 2400);
