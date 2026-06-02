@@ -245,9 +245,9 @@ export default function App() {
   const voiceRef = useRef<SpeechRecognition | null>(null);
   const voiceAccRef = useRef("");
 
-  const [freq, setFreq] = useState(_saved.current?.freq ?? 620);
-  const [threshold, setThreshold] = useState(_saved.current?.threshold ?? 260);
-  const [wpm, setWpm] = useState(_saved.current?.wpm ?? 15);
+  const [freq, setFreq] = useState(_saved.current?.freq ?? 850);
+  const [threshold, setThreshold] = useState(_saved.current?.threshold ?? 140);
+  const [wpm, setWpm] = useState(_saved.current?.wpm ?? 10);
   const [vibEnabled, setVibEnabled] = useState(_saved.current?.vibEnabled ?? true);
 
   const { updateAvailable, reload } = useUpdateCheck();
@@ -718,7 +718,7 @@ export default function App() {
                   <div className="top" style={{ flex: 1 }}><span>{t.settings.vib}</span></div>
                   <div className={`switch ${vibEnabled ? "on" : ""}`} onClick={() => setVibEnabled(v => !v)} />
                 </div>
-                <button className="set-reset" onClick={() => { setFreq(620); setThreshold(260); setWpm(15); setVibEnabled(true); }}>
+                <button className="set-reset" onClick={() => { setFreq(850); setThreshold(140); setWpm(10); setVibEnabled(true); }}>
                   {({ RU: "СБРОСИТЬ ПО УМОЛЧАНИЮ", EN: "RESET TO DEFAULTS", ES: "RESTABLECER", DE: "ZURÜCKSETZEN" })[lang]}
                 </button>
                 <div className="set-footer">MORSE TRAINER · v2</div>
