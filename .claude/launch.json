@@ -4,8 +4,8 @@
     {
       "name": "dev",
       "runtimeExecutable": "C:\\Program Files\\nodejs\\node.exe",
-      "runtimeArgs": ["node_modules/.bin/vite", "--host"],
-      "port": 5173
+      "runtimeArgs": ["node_modules/.bin/vite"],
+      "port": 5174
     }
   ]
 }

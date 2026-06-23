@@ -1,0 +1,36 @@
+{
+  "packageId": "com.morsetrainer.app",
+  "host": "TODO_YOUR_NETLIFY_DOMAIN.netlify.app",
+  "name": "Morse Trainer",
+  "launcherName": "Morse Trainer",
+  "display": "standalone",
+  "themeColor": "#050303",
+  "navigationColor": "#050303",
+  "navigationColorDark": "#050303",
+  "navigationDividerColor": "#050303",
+  "navigationDividerColorDark": "#050303",
+  "backgroundColor": "#050303",
+  "enableNotifications": false,
+  "startUrl": "/",
+  "iconUrl": "https://TODO_YOUR_NETLIFY_DOMAIN.netlify.app/icon-512.png",
+  "maskableIconUrl": "https://TODO_YOUR_NETLIFY_DOMAIN.netlify.app/icon-maskable-512.png",
+  "splashScreenFadeOutDuration": 300,
+  "signingKey": {
+    "path": "./morse-trainer.keystore",
+    "alias": "morse-trainer"
+  },
+  "appVersionCode": 1,
+  "appVersionName": "2.1.0",
+  "shortcuts": [],
+  "generatorApp": "bubblewrap-cli",
+  "webManifestUrl": "https://TODO_YOUR_NETLIFY_DOMAIN.netlify.app/manifest.json",
+  "fallbackType": "customtabs",
+  "features": {},
+  "alphaDependencies": {
+    "enabled": false
+  },
+  "enableSiteSettingsShortcut": true,
+  "isChromeOSOnly": false,
+  "isMetaQuest": false,
+  "orientation": "portrait"
+}
