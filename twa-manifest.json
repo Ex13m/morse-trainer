@@ -19,8 +19,8 @@
     "path": "./morse-trainer.keystore",
     "alias": "morse-trainer"
   },
-  "appVersionCode": 1,
-  "appVersionName": "2.1.0",
+  "appVersionCode": 2,
+  "appVersionName": "2.2.0",
   "shortcuts": [],
   "generatorApp": "bubblewrap-cli",
   "webManifestUrl": "https://TODO_YOUR_NETLIFY_DOMAIN.netlify.app/manifest.json",
