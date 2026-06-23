@@ -172,35 +172,35 @@ const PHRASES: Record<Lang, Record<string, string[]>> = {
   },
   FR: {
     sea: [
-      "CAP AU NORD", "PHARE EN VUE", "TEMPETE SE LEVE", "LEVEZ ANCRE",
-      "EN AVANT TOUTE", "BARRE A BABORD", "COTE EN VUE", "BROUILLARD EPAIS",
-      "TENIR LE CAP", "PORT EN APPROCHE", "VENT SE LEVE", "ILE DROIT DEVANT",
+      "CAP AU NORD", "PHARE EN VUE", "TEMPÊTE SE LÈVE", "LEVEZ ANCRE",
+      "EN AVANT TOUTE", "BARRE À BÂBORD", "CÔTE EN VUE", "BROUILLARD ÉPAIS",
+      "TENIR LE CAP", "PORT EN APPROCHE", "VENT SE LÈVE", "ÎLE DROIT DEVANT",
     ],
     war: [
-      "MISSION ACCOMPLIE", "ORDRE RECU", "CESSEZ LE FEU", "TENIR LA POSITION",
-      "PATROUILLE EN ROUTE", "RESERVE PRETE", "EMBUSCADE SUR ROUTE", "SILENCE RADIO",
-      "CONVOI EN MARCHE", "BUNKER TROUVE", "FRONT STABLE", "ATTAQUE A AUBE",
+      "MISSION ACCOMPLIE", "ORDRE REÇU", "CESSEZ LE FEU", "TENIR LA POSITION",
+      "PATROUILLE EN ROUTE", "RÉSERVE PRÊTE", "EMBUSCADE SUR ROUTE", "SILENCE RADIO",
+      "CONVOI EN MARCHE", "BUNKER TROUVÉ", "FRONT STABLE", "ATTAQUE À AUBE",
     ],
     spy: [
-      "AGENT EN LIGNE", "CODE ACCEPTE", "COUVERTURE GRILLEE", "RENDEZ VOUS A MINUIT",
-      "DANGER PROCHE", "MISSION TERMINEE", "CONTACT ETABLI", "SORTIE PAR LE PONT",
-      "NUIT SANS LUNE", "PLAN APPROUVE", "CIBLE REPEREE", "FUITE PAR LE TOIT",
+      "AGENT EN LIGNE", "CODE ACCEPTÉ", "COUVERTURE GRILLÉE", "RENDEZ VOUS À MINUIT",
+      "DANGER PROCHE", "MISSION TERMINÉE", "CONTACT ÉTABLI", "SORTIE PAR LE PONT",
+      "NUIT SANS LUNE", "PLAN APPROUVÉ", "CIBLE REPÉRÉE", "FUITE PAR LE TOIT",
     ],
     sos: [
-      "BESOIN DE SECOURS", "FEU A BORD", "HOMME A LA MER", "DERIVE SANS MOTEUR",
-      "TEMPETE APPROCHE", "ATTENDONS SECOURS", "CANOTS A LA MER", "ALERTE ALERTE",
+      "BESOIN DE SECOURS", "FEU À BORD", "HOMME À LA MER", "DÉRIVE SANS MOTEUR",
+      "TEMPÊTE APPROCHE", "ATTENDONS SECOURS", "CANOTS À LA MER", "ALERTE ALERTE",
     ],
     pirate: [
-      "TRESOR SUR ILE", "OR DANS LE COFFRE", "PAVILLON NOIR HISSE", "BON VENT",
-      "CAPITAINE SUR PONT", "CARTE AU TRESOR", "GROTTE SOUS MARINE", "LA CHASSE COMMENCE",
+      "TRÉSOR SUR ÎLE", "OR DANS LE COFFRE", "PAVILLON NOIR HISSÉ", "BON VENT",
+      "CAPITAINE SUR PONT", "CARTE AU TRÉSOR", "GROTTE SOUS MARINE", "LA CHASSE COMMENCE",
     ],
     space: [
-      "ORBITE STABLE", "FUSEE AU DEPART", "SORTIE DANS ESPACE", "MOTEUR EN MARCHE",
-      "CARBURANT NORMAL", "SONDE ENVOYEE", "EQUIPAGE PRET", "CAP CORRECT",
+      "ORBITE STABLE", "FUSÉE AU DÉPART", "SORTIE DANS ESPACE", "MOTEUR EN MARCHE",
+      "CARBURANT NORMAL", "SONDE ENVOYÉE", "ÉQUIPAGE PRÊT", "CAP CORRECT",
     ],
     animal: [
       "LOUP SUR LE SENTIER", "AIGLE DANS LE CIEL", "OURS DANS SA GROTTE", "RENARD DANS TERRIER",
-      "TIGRE EN EMBUSCADE", "CERF A LA RIVIERE", "SERPENT SOUS PIERRE", "FAUCON EN VOL",
+      "TIGRE EN EMBUSCADE", "CERF À LA RIVIÈRE", "SERPENT SOUS PIERRE", "FAUCON EN VOL",
     ],
   },
   IT: {
@@ -238,18 +238,18 @@ const PHRASES: Record<Lang, Record<string, string[]>> = {
   },
   PT: {
     sea: [
-      "RUMO AO NORTE", "FAROL A VISTA", "TEMPESTADE SE FORMA", "LEVANTAR ANCORA",
-      "AVANTE TODA", "LEME A BOMBORDO", "COSTA A VISTA", "NEVOEIRO DENSO",
-      "MANTER RUMO", "PORTO PROXIMO", "VENTO AUMENTA", "ILHA A FRENTE",
+      "RUMO AO NORTE", "FAROL À VISTA", "TEMPESTADE SE FORMA", "LEVANTAR ÂNCORA",
+      "AVANTE TODA", "LEME A BOMBORDO", "COSTA À VISTA", "NEVOEIRO DENSO",
+      "MANTER RUMO", "PORTO PRÓXIMO", "VENTO AUMENTA", "ILHA À FRENTE",
     ],
     war: [
-      "MISSAO CUMPRIDA", "ORDEM RECEBIDA", "CESSAR FOGO", "MANTER POSICAO",
-      "PATRULHA EM MARCHA", "RESERVA PRONTA", "EMBOSCADA NA ESTRADA", "SILENCIO DE RADIO",
-      "COMBOIO A CAMINHO", "BUNKER ENCONTRADO", "FRENTE ESTAVEL", "ATAQUE AO AMANHECER",
+      "MISSÃO CUMPRIDA", "ORDEM RECEBIDA", "CESSAR FOGO", "MANTER POSIÇÃO",
+      "PATRULHA EM MARCHA", "RESERVA PRONTA", "EMBOSCADA NA ESTRADA", "SILÊNCIO DE RÁDIO",
+      "COMBOIO A CAMINHO", "BUNKER ENCONTRADO", "FRENTE ESTÁVEL", "ATAQUE AO AMANHECER",
     ],
     spy: [
-      "AGENTE EM LINHA", "CODIGO ACEITO", "COBERTURA QUEIMADA", "ENCONTRO A MEIA NOITE",
-      "PERIGO PROXIMO", "MISSAO TERMINADA", "CONTATO FEITO", "SAIDA PELA PONTE",
+      "AGENTE EM LINHA", "CÓDIGO ACEITO", "COBERTURA QUEIMADA", "ENCONTRO À MEIA NOITE",
+      "PERIGO PRÓXIMO", "MISSÃO TERMINADA", "CONTATO FEITO", "SAÍDA PELA PONTE",
       "NOITE SEM LUA", "PLANO APROVADO", "ALVO LOCALIZADO", "FUGA PELO TELHADO",
     ],
     sos: [
@@ -257,16 +257,214 @@ const PHRASES: Record<Lang, Record<string, string[]>> = {
       "TEMPESTADE SE APROXIMA", "AGUARDANDO RESGATE", "BOTES AO MAR", "ALERTA ALERTA",
     ],
     pirate: [
-      "TESOURO NA ILHA", "OURO NO BAU", "BANDEIRA NEGRA HASTEADA", "BOM VENTO",
-      "CAPITAO NO CONVÉS", "MAPA DO TESOURO", "CAVERNA SUBMARINA", "CACA COMECA",
+      "TESOURO NA ILHA", "OURO NO BAÚ", "BANDEIRA NEGRA HASTEADA", "BOM VENTO",
+      "CAPITÃO NO CONVÉS", "MAPA DO TESOURO", "CAVERNA SUBMARINA", "CAÇA COMEÇA",
     ],
     space: [
-      "ORBITA ESTAVEL", "FOGUETE NO LANCAMENTO", "SAIDA PARA ESPACO", "MOTOR LIGADO",
-      "COMBUSTIVEL NORMAL", "SONDA ENVIADA", "TRIPULACAO PRONTA", "ROTA CORRETA",
+      "ÓRBITA ESTÁVEL", "FOGUETE NO LANÇAMENTO", "SAÍDA PARA ESPAÇO", "MOTOR LIGADO",
+      "COMBUSTÍVEL NORMAL", "SONDA ENVIADA", "TRIPULAÇÃO PRONTA", "ROTA CORRETA",
     ],
     animal: [
-      "LOBO NA TRILHA", "AGUIA NO CEU", "URSO NA TOCA", "RAPOSA NA TOCA",
-      "TIGRE NA TOCAIA", "CERVO NO RIO", "COBRA SOB PEDRA", "FALCAO EM VOO",
+      "LOBO NA TRILHA", "ÁGUIA NO CÉU", "URSO NA TOCA", "RAPOSA NA TOCA",
+      "TIGRE NA TOCAIA", "CERVO NO RIO", "COBRA SOB PEDRA", "FALCÃO EM VOO",
+    ],
+  },
+  PL: {
+    sea: [
+      "KURS NA PÓŁNOC", "LATARNIA NA HORYZONCIE", "SZTORM NADCIĄGA", "PODNIEŚĆ KOTWICĘ",
+      "PEŁNĄ NAPRZÓD", "STER NA LEWĄ", "BRZEG BLISKO", "GĘSTA MGŁA",
+      "TRZYMAĆ KURS", "PORT BLISKO", "WIATR SIĘ WZMAGA", "WYSPA PO PRAWEJ",
+    ],
+    war: [
+      "MISJA WYKONANA", "ROZKAZ OTRZYMANY", "OGIEŃ WSTRZYMAĆ", "POZYCJA UTRZYMANA",
+      "PATROL WYRUSZYŁ", "REZERWA GOTOWA", "ZASADZKA NA DRODZE", "CISZA RADIOWA",
+      "KONWÓJ W DRODZE", "BUNKIER ZNALEZIONY", "FRONT STABILNY", "ATAK O ŚWICIE",
+    ],
+    spy: [
+      "AGENT NA ŁĄCZNOŚCI", "HASŁO PRZYJĘTE", "SPOTKANIE O PÓŁNOCY", "NIEBEZPIECZEŃSTWO",
+      "MISJA ZAKOŃCZONA", "KONTAKT NAWIĄZANY", "TECZKA OTRZYMANA", "WYJŚCIE PRZEZ MOST",
+      "NOC BEZ KSIĘŻYCA", "PLAN ZATWIERDZONY", "CEL NAMIERZONY", "UCIECZKA PRZEZ DACH",
+    ],
+    sos: [
+      "POTRZEBUJEMY POMOCY", "POŻAR NA POKŁADZIE", "CZŁOWIEK ZA BURTĄ", "DRYFUJEMY",
+      "SZTORM NADCHODZI", "CZEKAMY NA RATUNEK", "ŁODZIE NA WODĘ", "ALARM ALARM",
+    ],
+    pirate: [
+      "SKARB NA WYSPIE", "ZŁOTO W SKRZYNI", "CZARNA FLAGA W GÓRĘ", "DOBRY WIATR",
+      "KAPITAN NA MOSTKU", "MAPA SKARBÓW", "JASKINIA POD WODĄ", "POLOWANIE CZAS",
+    ],
+    space: [
+      "ORBITA STABILNA", "RAKIETA NA STARCIE", "WYJŚCIE W KOSMOS", "DOKOWANIE GOTOWE",
+      "PALIWO W NORMIE", "SONDA WYSŁANA", "ZAŁOGA GOTOWA", "KURS PRAWIDŁOWY",
+    ],
+    animal: [
+      "WILK NA ŚCIEŻCE", "ORZEŁ NA NIEBIE", "NIEDŹWIEDŹ W JAMIE", "SOWA NA GAŁĘZI",
+      "LIS W NORZE", "TYGRYS W ZASADZCE", "JELEŃ NAD RZEKĄ", "SOKÓŁ W LOCIE",
+    ],
+  },
+  TR: {
+    sea: [
+      "ROTA KUZEYE", "FENER GÖRÜNÜYOR", "FIRTINA YAKLAŞIYOR", "DEMIR KALDIR",
+      "TAM YOLLA İLERİ", "İSKELEYE DÜMEN", "KIYIYI GÖRÜYORUZ", "YOĞUN SİS",
+      "ROTAYI TUT", "LİMAN YAKIN", "RÜZGAR ARTIYOR", "ADA GÖRÜNÜYOR",
+    ],
+    war: [
+      "GÖREV TAMAM", "EMİR ALINDI", "ATEŞ KES", "MEVZİ TUTULDU",
+      "DEVRIYE ÇIKTI", "YEDEK HAZIR", "PUSU YOLDA", "TELSİZ SUSKUNLUĞU",
+      "KONVOY YOLDA", "BUNKER BULUNDU", "CEPHE SABİT", "ŞAFAKTA SALDIRI",
+    ],
+    spy: [
+      "AJAN AKTİF", "ŞİFRE KABUL", "BULUŞMA GECE YARISI", "TEHLİKE YAKIN",
+      "GÖREV BİTTİ", "TEMAS KURULDU", "DOSYA ALINDI", "ÇIKIŞ KÖPRÜDEN",
+      "AYSIZ GECE", "PLAN ONAYLI", "HEDEF BELİRLENDİ", "ÇATIDAN KAÇIŞ",
+    ],
+    sos: [
+      "YARDIM GEREKİYOR", "GÜVERTEDE YANGIN", "DENİZE DÜŞEN VAR", "SÜRÜKLENIYORUZ",
+      "FIRTINA GELİYOR", "KURTARMA BEKLİYORUZ", "FİLİKALAR DENİZE", "ALARM ALARM",
+    ],
+    pirate: [
+      "ADADA HAZİNE", "SANDIKTA ALTIN", "SİYAH BAYRAK ÇEKİLİ", "İYİ RÜZGAR",
+      "KAPTAN GÜVERTEDE", "HAZİNE HARİTASI", "SU ALTI MAĞARA", "AV BAŞLADI",
+    ],
+    space: [
+      "YÖRÜNGE SABİT", "ROKET FIRLATILDI", "UZAYA ÇIKIŞ", "MOTOR ÇALIŞIYOR",
+      "YAKIT NORMAL", "SONDA GÖNDERİLDİ", "MÜRETTEBAT HAZIR", "ROTA DOĞRU",
+    ],
+    animal: [
+      "KURT ULUYOR", "KARTAL UÇUYOR", "AYI UYUYOR", "BAYKUŞ DALDA",
+      "TİLKİ YUVADA", "KAPLAN PUSUDA", "GEYİK NEHIRDE", "ŞAHIN UÇUŞTA",
+    ],
+  },
+  NL: {
+    sea: [
+      "KOERS NAAR NOORD", "VUURTOREN IN ZICHT", "STORM KOMT OP", "ANKER LICHTEN",
+      "VOLLE KRACHT VOORUIT", "ROER NAAR BAKBOORD", "KUST IN ZICHT", "DICHTE MIST",
+      "KOERS HOUDEN", "HAVEN IS DICHTBIJ", "WIND NEEMT TOE", "EILAND VOORUIT",
+    ],
+    war: [
+      "MISSIE VOLBRACHT", "BEVEL ONTVANGEN", "STAAKT HET VUREN", "POSITIE HOUDEN",
+      "PATROUILLE VERTROKKEN", "RESERVE GEREED", "HINDERLAAG OP WEG", "RADIOSTILTE",
+      "KONVOOI ONDERWEG", "BUNKER GEVONDEN", "FRONT STABIEL", "AANVAL BIJ DAGERAAD",
+    ],
+    spy: [
+      "AGENT IS ACTIEF", "CODE GEACCEPTEERD", "DEKMANTEL OPGEBLAZEN", "ONTMOETING MIDDERNACHT",
+      "GEVAAR IS NABIJ", "MISSIE VOLTOOID", "CONTACT GEMAAKT", "UITGANG VIA BRUG",
+      "NACHT ZONDER MAAN", "PLAN GOEDGEKEURD", "DOEL GEVONDEN", "ONTSNAPPING VIA DAK",
+    ],
+    sos: [
+      "WIJ HEBBEN HULP NODIG", "BRAND AAN BOORD", "MAN OVERBOORD", "DRIJVEN ZONDER MOTOR",
+      "STORM IN AANTOCHT", "WACHTEN OP REDDING", "BOTEN TE WATER", "ALARM ALARM",
+    ],
+    pirate: [
+      "SCHAT OP EILAND", "GOUD IN DE KIST", "ZWARTE VLAG GEHESEN", "GOEDE WIND",
+      "KAPITEIN AAN DEK", "SCHATKAART GEVONDEN", "GROT ONDER WATER", "JACHT BEGINT",
+    ],
+    space: [
+      "BAAN IS STABIEL", "RAKET BIJ LANCERING", "NAAR DE RUIMTE", "MOTOR DRAAIT",
+      "BRANDSTOF NORMAAL", "SONDE VERZONDEN", "BEMANNING GEREED", "KOERS IS JUIST",
+    ],
+    animal: [
+      "WOLF OP HET PAD", "AREND IN DE LUCHT", "BEER IN DE GROT", "UIL OP DE TAK",
+      "VOS IN ZIJN HOL", "TIJGER IN HINDERLAAG", "HERT BIJ DE RIVIER", "VALK IN VLUCHT",
+    ],
+  },
+  SV: {
+    sea: [
+      "KURS NORRUT", "FYREN I SIKTE", "STORMEN ÖKAR", "LYFTA ANKARET",
+      "FULL FART FRAMÅT", "RODER ÅTBABORD", "KUSTEN I SIKTE", "TÄT DIMMA",
+      "HÅLLA KURSEN", "HAMNEN ÄR NÄRA", "VINDEN ÖKAR", "ÖN FÖRUT",
+    ],
+    war: [
+      "UPPDRAG KLART", "ORDER MOTTAGEN", "ELDUPPHÖR", "HÅLL STÄLLNINGEN",
+      "PATRULL UTE", "RESERV REDO", "BAKHÅLL PÅ VÄGEN", "RADIOTYSTNAD",
+      "KONVOJ PÅ VÄG", "BUNKER HITTAD", "FRONTEN STABIL", "ANFALL VID GRYNING",
+    ],
+    spy: [
+      "AGENT ÄR AKTIV", "KOD GODKÄND", "TÄCKNING RÖJD", "MÖTE VID MIDNATT",
+      "FARA ÄR NÄRA", "UPPDRAG AVSLUTAT", "KONTAKT UPPRÄTTAD", "UTGÅNG VIA BRON",
+      "NATT UTAN MÅNE", "PLAN GODKÄND", "MÅL HITTAT", "FLYKT ÖVER TAKET",
+    ],
+    sos: [
+      "VI BEHÖVER HJÄLP", "BRAND OMBORD", "MAN ÖVERBORD", "DRIVER UTAN MOTOR",
+      "STORM PÅ VÄG", "VÄNTAR PÅ RÄDDNING", "BÅTAR I VATTNET", "ALARM ALARM",
+    ],
+    pirate: [
+      "SKATT PÅ ÖN", "GULD I KISTAN", "SVART FLAGG HISSAD", "GOD VIND",
+      "KAPTEN PÅ DÄCK", "SKATTKARTA HITTAD", "GROTTA UNDER VATTEN", "JAKTEN BÖRJAR",
+    ],
+    space: [
+      "OMLOPPSBANA STABIL", "RAKET VID START", "UT I RYMDEN", "MOTORN GÅR",
+      "BRÄNSLE NORMALT", "SOND SKICKAD", "BESÄTTNING REDO", "KURSEN ÄR RÄTT",
+    ],
+    animal: [
+      "VARGEN PÅ STIGEN", "ÖRNEN PÅ HIMLEN", "BJÖRNEN I IDET", "UGGLAN PÅ GRENEN",
+      "RÄVEN I LYAN", "TIGERN I BAKHÅLL", "HJORTEN VID ÄN", "FALKEN I FLYKT",
+    ],
+  },
+  UK: {
+    sea: [
+      "КУРС НА ПІВНІЧ", "МАЯК НА ОБРІЇ", "ШТОРМ ПОСИЛЮЄТЬСЯ", "ПІДНЯТИ ЯКІР",
+      "ПОВНИЙ ВПЕРЕД", "КЕРМО ЛІВОРУЧ", "БЕРЕГ БЛИЗЬКО", "ГУСТИЙ ТУМАН",
+      "ТРИМАТИ КУРС", "ПОРТ ПОРУЧ", "ВІТЕР ПОСИЛЮЄТЬСЯ", "ОСТРІВ ПОПЕРЕДУ",
+    ],
+    war: [
+      "МІСІЯ ВИКОНАНА", "НАКАЗ ОТРИМАНО", "ВОГОНЬ ПРИПИНИТИ", "ПОЗИЦІЮ УТРИМАНО",
+      "ПАТРУЛЬ ВИРУШИВ", "РЕЗЕРВ ГОТОВИЙ", "ЗАСІДКА НА ШЛЯХУ", "ТИША В ЕФІРІ",
+      "КОНВОЙ В ДОРОЗІ", "БУНКЕР ЗНАЙДЕНО", "ФРОНТ СТАБІЛЬНИЙ", "АТАКА НА СВІТАНКУ",
+    ],
+    spy: [
+      "АГЕНТ НА ЗВ'ЯЗКУ", "ПАРОЛЬ ПРИЙНЯТО", "ЗУСТРІЧ ОПІВНОЧІ", "НЕБЕЗПЕКА ПОРУЧ",
+      "МІСІЯ ЗАВЕРШЕНА", "КОНТАКТ ВСТАНОВЛЕНО", "ДОСЬЄ ОТРИМАНО", "ВИХІД ЧЕРЕЗ МІСТ",
+      "НІЧ БЕЗ МІСЯЦЯ", "ПЛАН ЗАТВЕРДЖЕНО", "ЦІЛЬ ВИЯВЛЕНО", "ВТЕЧА ЧЕРЕЗ ДАХ",
+    ],
+    sos: [
+      "ПОТРІБНА ДОПОМОГА", "ПОЖЕЖА НА БОРТУ", "ЛЮДИНА ЗА БОРТОМ", "ДРЕЙФУЄМО",
+      "ШТОРМ НАБЛИЖАЄТЬСЯ", "ЧЕКАЄМО ПОРЯТУНКУ", "ШЛЮПКИ НА ВОДУ", "ТРИВОГА ТРИВОГА",
+    ],
+    pirate: [
+      "СКАРБ НА ОСТРОВІ", "ЗОЛОТО В СКРИНІ", "ЧОРНИЙ ПРАПОР ПІДНЯТО", "ДОБРИЙ ВІТЕР",
+      "КАПІТАН НА МІСТКУ", "КАРТА СКАРБІВ", "ПЕЧЕРА ПІД ВОДОЮ", "ПОЛЮВАННЯ ПОЧАЛОСЬ",
+    ],
+    space: [
+      "ОРБІТА СТАБІЛЬНА", "РАКЕТА НА СТАРТІ", "ВИХІД У КОСМОС", "СТИКУВАННЯ ЗАВЕРШЕНО",
+      "ПАЛЬНЕ В НОРМІ", "ЗОНД ВІДПРАВЛЕНО", "ЕКІПАЖ ГОТОВИЙ", "КУРС ВІРНИЙ",
+    ],
+    animal: [
+      "ВОВК НА СТЕЖЦІ", "ОРЕЛ У НЕБІ", "ВЕДМІДЬ У БАРЛОЗІ", "СОВА НА ГІЛЦІ",
+      "ЛИСИЦЯ В НОРІ", "ТИГР У ЗАСІДЦІ", "ОЛЕНЬ БІЛЯ РІЧКИ", "СОКІЛ У ПОЛЬОТІ",
+    ],
+  },
+  NO: {
+    sea: [
+      "KURS MOT NORD", "FYRET I SIKTE", "STORMEN ØKER", "LØFT ANKERET",
+      "FULL FART FREM", "ROR TIL BABORD", "KYSTEN I SIKTE", "TETT TÅKE",
+      "HOLD KURSEN", "HAVNEN ER NÆR", "VINDEN ØKER", "ØYA FORUT",
+    ],
+    war: [
+      "OPPDRAG FULLFØRT", "ORDRE MOTTATT", "STANS ILDEN", "HOLD STILLINGEN",
+      "PATRULJE UTE", "RESERVE KLAR", "BAKHOLD PÅ VEIEN", "RADIOTAUSHET",
+      "KONVOI PÅ VEI", "BUNKER FUNNET", "FRONTEN STABIL", "ANGREP VED DAGGRY",
+    ],
+    spy: [
+      "AGENT ER AKTIV", "KODE GODKJENT", "DEKNING AVSLØRT", "MØTE VED MIDNATT",
+      "FARE ER NÆR", "OPPDRAG AVSLUTTET", "KONTAKT OPPRETTET", "UTGANG VIA BROEN",
+      "NATT UTEN MÅNE", "PLAN GODKJENT", "MÅL FUNNET", "FLUKT OVER TAKET",
+    ],
+    sos: [
+      "VI TRENGER HJELP", "BRANN OM BORD", "MANN OVER BORD", "DRIVER UTEN MOTOR",
+      "STORM PÅ VEI", "VENTER PÅ REDNING", "BÅTER I VANNET", "ALARM ALARM",
+    ],
+    pirate: [
+      "SKATT PÅ ØYA", "GULL I KISTEN", "SVART FLAGG HEIST", "GOD VIND",
+      "KAPTEINEN PÅ DEKK", "SKATTKART FUNNET", "GROTTE UNDER VANN", "JAKTEN STARTER",
+    ],
+    space: [
+      "BANEN ER STABIL", "RAKETT VED START", "UT I ROMMET", "MOTOREN GÅR",
+      "DRIVSTOFF NORMALT", "SONDE SENDT", "MANNSKAP KLART", "KURSEN ER RIKTIG",
+    ],
+    animal: [
+      "ULVEN PÅ STIEN", "ØRNEN PÅ HIMMELEN", "BJØRNEN I HIET", "UGLA PÅ GREINA",
+      "REVEN I HIET", "TIGEREN I BAKHOLD", "HJORTEN VED ELVA", "FALKEN I FLUKT",
     ],
   },
 };

@@ -11,6 +11,7 @@ import {
   IconDownload, IconUpload, IconMic, IconVoice,
 } from "./components/Icons";
 import Splash from "./components/Splash";
+import { getRank, getNextRank } from "./data/ranks";
 
 function buildVerticalLayout(map: Record<string, string>, rootLabel: string, maxDepth = 5) {
   const nodes: Record<string, { code: string; char: string | null; kind: string; depth: number; children: typeof nodes[string][] }> = {};
@@ -53,7 +54,11 @@ function MorseTree({ lang, activeCode, flashCode, rootLabel, hintCode }: {
   lang: Lang; activeCode: string | null; flashCode: string | null; rootLabel: string; hintCode: string | null;
 }) {
   const map = MORSE_MAPS[lang];
-  const layout = useMemo(() => buildVerticalLayout(map, rootLabel, 5), [map, rootLabel]);
+  const dynDepth = useMemo(
+    () => Object.values(map).reduce((m, c) => Math.max(m, c.length), 5),
+    [map],
+  );
+  const layout = useMemo(() => buildVerticalLayout(map, rootLabel, dynDepth), [map, rootLabel, dynDepth]);
   const { nodes, positions, slots, maxDepth } = layout;
   const W = 760, H = 660;
   const PADX = 26, PADTOP = 10, PADBOT = 44;
@@ -313,7 +318,7 @@ export default function App() {
   useEffect(() => { if (tab === 0) pickNewPhrase(); }, [lang, theme, tab, pickNewPhrase]);
 
   useEffect(() => {
-    const defaults: Record<Lang, string> = { RU: "ПРИВЕТ МИР", EN: "HELLO WORLD", ES: "HOLA MUNDO", DE: "HALLO WELT", FR: "BONJOUR MONDE", IT: "CIAO MONDO", PT: "OLA MUNDO" };
+    const defaults: Record<Lang, string> = { RU: "ПРИВЕТ МИР", EN: "HELLO WORLD", ES: "HOLA MUNDO", DE: "HALLO WELT", FR: "BONJOUR MONDE", IT: "CIAO MONDO", PT: "OLA MUNDO", PL: "WITAJ ŚWIECIE", TR: "MERHABA DÜNYA", NL: "HALLO WERELD", SV: "HEJSAN VÄRLDEN", UK: "ПРИВІТ СВІТ", NO: "HALLO VERDEN" };
     setCodeText(defaults[lang]);
   }, [lang]);
 
@@ -573,7 +578,7 @@ export default function App() {
     if (!SR) return;
     voiceAccRef.current = "";
     const rec = new SR();
-    rec.lang = ({ RU: "ru-RU", EN: "en-US", ES: "es-ES", DE: "de-DE", FR: "fr-FR", IT: "it-IT", PT: "pt-PT" })[lang];
+    rec.lang = ({ RU: "ru-RU", EN: "en-US", ES: "es-ES", DE: "de-DE", FR: "fr-FR", IT: "it-IT", PT: "pt-PT", PL: "pl-PL", TR: "tr-TR", NL: "nl-NL", SV: "sv-SE", UK: "uk-UA", NO: "nb-NO" } as Record<string, string>)[lang];
     rec.continuous = false;
     rec.interimResults = true;
     rec.onresult = (e: SpeechRecognitionEvent) => {
@@ -613,7 +618,7 @@ export default function App() {
               <span className="lang-label">{t.langName}</span>
               {langOpen && (
                 <div className="lang-popup">
-                  {(["RU", "EN", "ES", "DE", "FR", "IT", "PT"] as Lang[]).map(l => (
+                  {(["RU", "EN", "ES", "DE", "FR", "IT", "PT", "PL", "TR", "NL", "SV", "UK", "NO"] as Lang[]).map(l => (
                     <button key={l} className={lang === l ? "on" : ""} onClick={(e) => { e.stopPropagation(); setLang(l); setLangOpen(false); }}>
                       {I18N[l].langName}
                     </button>
@@ -656,7 +661,7 @@ export default function App() {
                 <span className="display code-display">
                   {micMorse
                     ? <span className="pending">{micMorse.replace(/\./g, "•").replace(/-/g, "━").replace(/\//g, " / ")}</span>
-                    : <span className="placeholder">{({ RU: "Слушаю…", EN: "Listening…", ES: "Escuchando…", DE: "Höre…", FR: "Ecoute…", IT: "Ascolto…", PT: "Ouvindo…" })[lang]}</span>}
+                    : <span className="placeholder">{({ RU: "Слушаю…", EN: "Listening…", ES: "Escuchando…", DE: "Höre…", FR: "Écoute…", IT: "Ascolto…", PT: "Ouvindo…", PL: "Słucham…", TR: "Dinliyor…", NL: "Luisteren…", SV: "Lyssnar…", UK: "Слухаю…", NO: "Lytter…" } as Record<string, string>)[lang]}</span>}
                   <span className="cursor" />
                 </span>
               ) : (
@@ -683,6 +688,16 @@ export default function App() {
                     <button key={k} className={theme === k ? "on" : ""} onClick={() => setTheme(k)}>{t.themes[k]}</button>
                   ))}
                 </div>
+                {bestWpm > 0 && (() => {
+                  const rank = getRank(bestWpm);
+                  const next = getNextRank(bestWpm);
+                  return (
+                    <span className="wpm-badge" title={next ? `${next.minWpm} WPM → ${next.icon}` : "MAX"}>
+                      <span className="wpm-rank-icon">{rank.icon}</span>
+                      <span className="wpm-value">{bestWpm}</span>
+                    </span>
+                  );
+                })()}
                 <button className="next" onClick={pickNewPhrase}>{t.next}</button>
               </div>
             )}
@@ -692,13 +707,13 @@ export default function App() {
                   <IconDownload /><span>WAV</span>
                 </button>
                 <button className="tool-btn" disabled={isPlaying || micActive} onClick={handleImportClick}>
-                  <IconUpload /><span>{({ RU: "ФАЙЛ", EN: "FILE", ES: "ARCHIVO", DE: "DATEI", FR: "FICHIER", IT: "FILE", PT: "ARQUIVO" })[lang]}</span>
+                  <IconUpload /><span>{({ RU: "ФАЙЛ", EN: "FILE", ES: "ARCHIVO", DE: "DATEI", FR: "FICHIER", IT: "FILE", PT: "ARQUIVO", PL: "PLIK", TR: "DOSYA", NL: "BESTAND", SV: "FIL", UK: "ФАЙЛ", NO: "FIL" } as Record<string, string>)[lang]}</span>
                 </button>
                 <button className={`tool-btn ${micActive ? "on" : ""}`} disabled={isPlaying || voiceActive} onClick={handleMicToggle}>
-                  <IconMic /><span>{micActive ? t.stop.replace("■ ", "") : ({ RU: "МОРЗЕ", EN: "MORSE", ES: "MORSE", DE: "MORSE", FR: "MORSE", IT: "MORSE", PT: "MORSE" })[lang]}</span>
+                  <IconMic /><span>{micActive ? t.stop.replace("■ ", "") : "MORSE"}</span>
                 </button>
                 <button className={`tool-btn ${voiceActive ? "on" : ""}`} disabled={isPlaying || micActive} onClick={handleVoiceToggle}>
-                  <IconVoice /><span>{voiceActive ? t.stop.replace("■ ", "") : ({ RU: "ГОЛОС", EN: "VOICE", ES: "VOZ", DE: "STIMME", FR: "VOIX", IT: "VOCE", PT: "VOZ" })[lang]}</span>
+                  <IconVoice /><span>{voiceActive ? t.stop.replace("■ ", "") : ({ RU: "ГОЛОС", EN: "VOICE", ES: "VOZ", DE: "STIMME", FR: "VOIX", IT: "VOCE", PT: "VOZ", PL: "GŁOS", TR: "SES", NL: "STEM", SV: "RÖST", UK: "ГОЛОС", NO: "STEMME" } as Record<string, string>)[lang]}</span>
                 </button>
                 {decodedAlpha && <span className="alpha-badge">{decodedAlpha}</span>}
                 <input
@@ -751,8 +766,36 @@ export default function App() {
                   <div className="top" style={{ flex: 1 }}><span>{t.settings.vib}</span></div>
                   <div className={`switch ${vibEnabled ? "on" : ""}`} onClick={() => setVibEnabled(v => !v)} />
                 </div>
+                {/* RANK STATS */}
+                {(() => {
+                  const rank = getRank(bestWpm);
+                  const next = getNextRank(bestWpm);
+                  const progress = next ? Math.min(100, ((bestWpm - rank.minWpm) / (next.minWpm - rank.minWpm)) * 100) : 100;
+                  return (
+                    <div className="rank-card">
+                      <div className="rank-top">
+                        <span className="rank-icon">{rank.icon}</span>
+                        <span className="rank-label">{rank.label[lang]}</span>
+                      </div>
+                      <div className="rank-stats">
+                        <span>{({ RU: "ЛУЧШИЙ", EN: "BEST", ES: "MEJOR", DE: "BEST", FR: "MEILLEUR", IT: "MIGLIORE", PT: "MELHOR", PL: "NAJLEPSZY", TR: "EN İYİ", NL: "BESTE", SV: "BÄST", UK: "НАЙКРАЩИЙ", NO: "BEST" } as Record<string, string>)[lang]}: <b>{bestWpm}</b> {t.units.wpm}</span>
+                        <span>{({ RU: "ПОСЛЕДНИЙ", EN: "LAST", ES: "ÚLTIMO", DE: "LETZTER", FR: "DERNIER", IT: "ULTIMO", PT: "ÚLTIMO", PL: "OSTATNI", TR: "SON", NL: "LAATSTE", SV: "SENAST", UK: "ОСТАННІЙ", NO: "SISTE" } as Record<string, string>)[lang]}: <b>{lastWpm}</b> {t.units.wpm}</span>
+                        <span>{({ RU: "ФРАЗЫ", EN: "PHRASES", ES: "FRASES", DE: "SÄTZE", FR: "PHRASES", IT: "FRASI", PT: "FRASES", PL: "FRAZY", TR: "CÜMLELER", NL: "ZINNEN", SV: "FRASER", UK: "ФРАЗИ", NO: "FRASER" } as Record<string, string>)[lang]}: <b>{phrasesCompleted}</b></span>
+                      </div>
+                      {next && (
+                        <div className="rank-progress">
+                          <div className="rank-bar">
+                            <div className="rank-fill" style={{ width: progress + "%" }} />
+                          </div>
+                          <span className="rank-next">{next.icon} {next.label[lang]} — {next.minWpm} {t.units.wpm}</span>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })()}
+
                 <button className="set-reset" onClick={() => { setFreq(850); setThreshold(140); setWpm(10); setVibEnabled(true); }}>
-                  {({ RU: "СБРОСИТЬ ПО УМОЛЧАНИЮ", EN: "RESET TO DEFAULTS", ES: "RESTABLECER", DE: "ZURÜCKSETZEN", FR: "REINITIALISER", IT: "RIPRISTINA", PT: "RESTAURAR" })[lang]}
+                  {({ RU: "СБРОСИТЬ ПО УМОЛЧАНИЮ", EN: "RESET TO DEFAULTS", ES: "RESTABLECER", DE: "ZURÜCKSETZEN", FR: "RÉINITIALISER", IT: "RIPRISTINA", PT: "RESTAURAR", PL: "PRZYWRÓĆ DOMYŚLNE", TR: "VARSAYILANLARA DÖNÜŞ", NL: "STANDAARD HERSTELLEN", SV: "ÅTERSTÄLL", UK: "СКИНУТИ", NO: "TILBAKESTILL" } as Record<string, string>)[lang]}
                 </button>
                 <div className="set-footer">MORSE TRAINER · v2</div>
               </div>
@@ -834,16 +877,17 @@ export default function App() {
 
           {phraseComplete && (
             <div className="victory">
-              <span className="victory-icon">✓</span>
+              <span className="victory-icon">{getRank(bestWpm).icon}</span>
               <span className="victory-text">
-                {({ RU: "ОТЛИЧНО!", EN: "GREAT!", ES: "EXCELENTE!", DE: "SUPER!", FR: "BRAVO!", IT: "OTTIMO!", PT: "OTIMO!" })[lang]}
+                {({ RU: "ОТЛИЧНО!", EN: "GREAT!", ES: "EXCELENTE!", DE: "SUPER!", FR: "BRAVO!", IT: "OTTIMO!", PT: "ÓTIMO!", PL: "ŚWIETNIE!", TR: "HARİKA!", NL: "GEWELDIG!", SV: "UTMÄRKT!", UK: "ЧУДОВО!", NO: "FLOTT!" } as Record<string, string>)[lang]}
               </span>
+              {lastWpm > 0 && <span className="victory-wpm">{lastWpm} {t.units.wpm}</span>}
             </div>
           )}
 
           {updateAvailable && (
             <button className="update-banner" onClick={reload}>
-              {({ RU: "ОБНОВЛЕНИЕ — НАЖМИТЕ", EN: "UPDATE — TAP", ES: "ACTUALIZAR — PULSE", DE: "UPDATE — TIPPEN", FR: "MISE A JOUR — APPUYEZ", IT: "AGGIORNA — TOCCA", PT: "ATUALIZAR — TOQUE" })[lang]}
+              {({ RU: "ОБНОВЛЕНИЕ — НАЖМИТЕ", EN: "UPDATE — TAP", ES: "ACTUALIZAR — PULSE", DE: "UPDATE — TIPPEN", FR: "MISE À JOUR — APPUYEZ", IT: "AGGIORNA — TOCCA", PT: "ATUALIZAR — TOQUE", PL: "AKTUALIZACJA — DOTKNIJ", TR: "GÜNCELLEME — DOKUN", NL: "UPDATE — TIK", SV: "UPPDATERING — TRYCK", UK: "ОНОВЛЕННЯ — НАТИСНІТЬ", NO: "OPPDATERING — TRYKK" } as Record<string, string>)[lang]}
             </button>
           )}
     </div>
