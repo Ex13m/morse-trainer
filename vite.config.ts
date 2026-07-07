@@ -3,6 +3,7 @@ import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 import { writeFileSync } from 'fs'
 import { resolve } from 'path'
+import pkg from './package.json'
 
 function versionPlugin(): Plugin {
   return {
@@ -18,6 +19,7 @@ function versionPlugin(): Plugin {
 }
 
 export default defineConfig({
+  define: { __APP_VERSION__: JSON.stringify(pkg.version) },
   server: { port: 5174, host: true },
   plugins: [
     react(),

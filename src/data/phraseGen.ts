@@ -1,6 +1,6 @@
-import type { Lang, Theme } from "./morse";
+import { MORSE_MAPS, type Lang, type Theme } from "./morse";
 
-const PHRASES: Record<Lang, Record<string, string[]>> = {
+export const PHRASES: Record<Lang, Record<string, string[]>> = {
   RU: {
     sea: [
       "КУРС НА СЕВЕР", "МАЯК НА ГОРИЗОНТЕ", "ШТОРМ УСИЛИВАЕТСЯ", "ЯКОРЬ ПОДНЯТЬ",
@@ -123,18 +123,22 @@ const PHRASES: Record<Lang, Record<string, string[]>> = {
     sos: [
       "NECESITAMOS AYUDA", "FUEGO A BORDO", "HOMBRE AL AGUA", "DERIVA SIN MOTOR",
       "TORMENTA SE ACERCA", "ESPERAMOS RESCATE", "BOTES AL AGUA", "ALERTA MAXIMA",
+      "MOTOR AVERIADO", "CASCO ROTO", "SIN COMBUSTIBLE", "SEÑAL DE SOCORRO",
     ],
     pirate: [
       "TESORO EN LA ISLA", "ORO EN EL COFRE", "BANDERA NEGRA IZADA", "VIENTO A FAVOR",
       "CAPITAN EN PUENTE", "MAPA DEL TESORO", "CUEVA BAJO AGUA", "CAZA COMENZADA",
+      "RON EN LA BODEGA", "CAÑON LISTO", "PERLA DEL FONDO", "BOTIN A BORDO",
     ],
     space: [
       "ORBITA ESTABLE", "COHETE EN RAMPA", "SALIDA AL ESPACIO", "MOTOR ENCENDIDO",
       "COMBUSTIBLE NORMAL", "SONDA ENVIADA", "TRIPULACION LISTA", "RUMBO CORRECTO",
+      "LUNA A LA VISTA", "RADAR ACTIVO", "MODULO ACOPLADO", "REGRESO A CASA",
     ],
     animal: [
       "LOBO EN CAMINO", "AGUILA EN CIELO", "OSO EN CUEVA", "ZORRO EN MADRIGUERA",
       "TIGRE EN ACECHO", "CIERVO EN EL RIO", "SERPIENTE EN ROCA", "HALCON EN VUELO",
+      "BUHO EN LA RAMA", "LINCE AL ACECHO", "NUTRIA EN EL RIO", "CONDOR EN LO ALTO",
     ],
   },
   DE: {
@@ -156,29 +160,33 @@ const PHRASES: Record<Lang, Record<string, string[]>> = {
     sos: [
       "WIR BRAUCHEN HILFE", "FEUER AN BORD", "MANN ÜBER BORD", "TREIBEN OHNE MOTOR",
       "STURM IM ANMARSCH", "WARTEN AUF RETTUNG", "BOOTE ZU WASSER", "ALARM ALARM",
+      "MOTOR AUSGEFALLEN", "RUMPF IST LECK", "KEIN TREIBSTOFF", "NOTSIGNAL GESENDET",
     ],
     pirate: [
       "SCHATZ AUF INSEL", "GOLD IN DER TRUHE", "SCHWARZE FLAGGE HOCH", "WIND IST GUT",
       "KAPITÄN AN DECK", "SCHATZKARTE GEFUNDEN", "HÖHLE UNTER WASSER", "JAGD BEGINNT",
+      "RUM IM FASS", "KANONEN BEREIT", "PERLE VOM GRUND", "BEUTE AN BORD",
     ],
     space: [
       "ORBIT IST STABIL", "RAKETE AM START", "AB INS ALL", "MOTOR LÄUFT",
       "TREIBSTOFF NORMAL", "SONDE GESENDET", "BESATZUNG BEREIT", "KURS IST RICHTIG",
+      "MOND IN SICHT", "RADAR AKTIV", "MODUL ANGEDOCKT", "RÜCKKEHR ZUR ERDE",
     ],
     animal: [
       "WOLF AUF DEM PFAD", "ADLER AM HIMMEL", "BÄR IN DER HÖHLE", "FUCHS IM BAU",
       "TIGER IM HINTERHALT", "HIRSCH AM FLUSS", "SCHLANGE UNTER STEIN", "FALKE IM FLUG",
+      "EULE AUF DEM AST", "LUCHS AUF DER JAGD", "OTTER IM FLUSS", "RABE AUF DER EICHE",
     ],
   },
   FR: {
     sea: [
-      "CAP AU NORD", "PHARE EN VUE", "TEMPÊTE SE LÈVE", "LEVEZ ANCRE",
-      "EN AVANT TOUTE", "BARRE À BÂBORD", "CÔTE EN VUE", "BROUILLARD ÉPAIS",
-      "TENIR LE CAP", "PORT EN APPROCHE", "VENT SE LÈVE", "ÎLE DROIT DEVANT",
+      "CAP AU NORD", "PHARE EN VUE", "TEMPETE SE LÈVE", "LEVEZ ANCRE",
+      "EN AVANT TOUTE", "BARRE À BABORD", "COTE EN VUE", "BROUILLARD ÉPAIS",
+      "TENIR LE CAP", "PORT EN APPROCHE", "VENT SE LÈVE", "ILE DROIT DEVANT",
     ],
     war: [
       "MISSION ACCOMPLIE", "ORDRE REÇU", "CESSEZ LE FEU", "TENIR LA POSITION",
-      "PATROUILLE EN ROUTE", "RÉSERVE PRÊTE", "EMBUSCADE SUR ROUTE", "SILENCE RADIO",
+      "PATROUILLE EN ROUTE", "RÉSERVE PRETE", "EMBUSCADE SUR ROUTE", "SILENCE RADIO",
       "CONVOI EN MARCHE", "BUNKER TROUVÉ", "FRONT STABLE", "ATTAQUE À AUBE",
     ],
     spy: [
@@ -188,19 +196,23 @@ const PHRASES: Record<Lang, Record<string, string[]>> = {
     ],
     sos: [
       "BESOIN DE SECOURS", "FEU À BORD", "HOMME À LA MER", "DÉRIVE SANS MOTEUR",
-      "TEMPÊTE APPROCHE", "ATTENDONS SECOURS", "CANOTS À LA MER", "ALERTE ALERTE",
+      "TEMPETE APPROCHE", "ATTENDONS SECOURS", "CANOTS À LA MER", "ALERTE ALERTE",
+      "MOTEUR EN PANNE", "COQUE PERCÉE", "PLUS DE CARBURANT", "SIGNAL DE DÉTRESSE",
     ],
     pirate: [
-      "TRÉSOR SUR ÎLE", "OR DANS LE COFFRE", "PAVILLON NOIR HISSÉ", "BON VENT",
+      "TRÉSOR SUR ILE", "OR DANS LE COFFRE", "PAVILLON NOIR HISSÉ", "BON VENT",
       "CAPITAINE SUR PONT", "CARTE AU TRÉSOR", "GROTTE SOUS MARINE", "LA CHASSE COMMENCE",
+      "RHUM DANS LA CALE", "CANONS PARÉS", "PERLE DES PROFONDEURS", "BUTIN À BORD",
     ],
     space: [
       "ORBITE STABLE", "FUSÉE AU DÉPART", "SORTIE DANS ESPACE", "MOTEUR EN MARCHE",
-      "CARBURANT NORMAL", "SONDE ENVOYÉE", "ÉQUIPAGE PRÊT", "CAP CORRECT",
+      "CARBURANT NORMAL", "SONDE ENVOYÉE", "ÉQUIPAGE PARÉ", "CAP CORRECT",
+      "LUNE EN VUE", "RADAR ACTIF", "MODULE AMARRÉ", "RETOUR SUR TERRE",
     ],
     animal: [
       "LOUP SUR LE SENTIER", "AIGLE DANS LE CIEL", "OURS DANS SA GROTTE", "RENARD DANS TERRIER",
       "TIGRE EN EMBUSCADE", "CERF À LA RIVIÈRE", "SERPENT SOUS PIERRE", "FAUCON EN VOL",
+      "HIBOU SUR LA BRANCHE", "LYNX À LA CHASSE", "LOUTRE DANS LA RIVIÈRE", "CORBEAU EN VOL",
     ],
   },
   IT: {
@@ -222,51 +234,59 @@ const PHRASES: Record<Lang, Record<string, string[]>> = {
     sos: [
       "ABBIAMO BISOGNO AIUTO", "FUOCO A BORDO", "UOMO IN MARE", "DERIVA SENZA MOTORE",
       "TEMPESTA IN ARRIVO", "ASPETTIAMO SOCCORSI", "SCIALUPPE IN MARE", "ALLARME ALLARME",
+      "MOTORE IN AVARIA", "SCAFO FORATO", "CARBURANTE FINITO", "SEGNALE DI SOCCORSO",
     ],
     pirate: [
       "TESORO SULLA ISOLA", "ORO NEL FORZIERE", "BANDIERA NERA ALTA", "BUON VENTO",
       "CAPITANO SUL PONTE", "MAPPA DEL TESORO", "GROTTA SOTTOMARINA", "CACCIA INIZIA",
+      "RUM NELLA STIVA", "CANNONI PRONTI", "PERLA DAL FONDO", "BOTTINO A BORDO",
     ],
     space: [
       "ORBITA STABILE", "RAZZO AL LANCIO", "USCITA NELLO SPAZIO", "MOTORE ACCESO",
       "CARBURANTE NORMALE", "SONDA INVIATA", "EQUIPAGGIO PRONTO", "ROTTA CORRETTA",
+      "LUNA IN VISTA", "RADAR ATTIVO", "MODULO AGGANCIATO", "RITORNO A TERRA",
     ],
     animal: [
       "LUPO SUL SENTIERO", "AQUILA NEL CIELO", "ORSO NELLA TANA", "VOLPE NELLA TANA",
       "TIGRE IN AGGUATO", "CERVO AL FIUME", "SERPENTE SOTTO SASSO", "FALCO IN VOLO",
+      "GUFO SUL RAMO", "LINCE IN CACCIA", "LONTRA NEL FIUME", "CORVO SULLA QUERCIA",
     ],
   },
   PT: {
     sea: [
-      "RUMO AO NORTE", "FAROL À VISTA", "TEMPESTADE SE FORMA", "LEVANTAR ÂNCORA",
-      "AVANTE TODA", "LEME A BOMBORDO", "COSTA À VISTA", "NEVOEIRO DENSO",
-      "MANTER RUMO", "PORTO PRÓXIMO", "VENTO AUMENTA", "ILHA À FRENTE",
+      "RUMO AO NORTE", "FAROL A VISTA", "TEMPESTADE SE FORMA", "LEVANTAR ANCORA",
+      "AVANTE TODA", "LEME A BOMBORDO", "COSTA A VISTA", "NEVOEIRO DENSO",
+      "MANTER RUMO", "PORTO PERTO", "VENTO AUMENTA", "ILHA A FRENTE",
     ],
     war: [
-      "MISSÃO CUMPRIDA", "ORDEM RECEBIDA", "CESSAR FOGO", "MANTER POSIÇÃO",
-      "PATRULHA EM MARCHA", "RESERVA PRONTA", "EMBOSCADA NA ESTRADA", "SILÊNCIO DE RÁDIO",
-      "COMBOIO A CAMINHO", "BUNKER ENCONTRADO", "FRENTE ESTÁVEL", "ATAQUE AO AMANHECER",
+      "MISSAO CUMPRIDA", "ORDEM RECEBIDA", "CESSAR FOGO", "MANTER POSIÇAO",
+      "PATRULHA EM MARCHA", "RESERVA PRONTA", "EMBOSCADA NA ESTRADA", "SILENCIO DE RADIO",
+      "COMBOIO A CAMINHO", "BUNKER ENCONTRADO", "FRENTE FIRME", "ATAQUE AO AMANHECER",
     ],
     spy: [
-      "AGENTE EM LINHA", "CÓDIGO ACEITO", "COBERTURA QUEIMADA", "ENCONTRO À MEIA NOITE",
-      "PERIGO PRÓXIMO", "MISSÃO TERMINADA", "CONTATO FEITO", "SAÍDA PELA PONTE",
+      "AGENTE EM LINHA", "CODIGO ACEITO", "COBERTURA QUEIMADA", "ENCONTRO A MEIA NOITE",
+      "PERIGO PERTO", "MISSAO TERMINADA", "CONTATO FEITO", "SAIDA PELA PONTE",
       "NOITE SEM LUA", "PLANO APROVADO", "ALVO LOCALIZADO", "FUGA PELO TELHADO",
     ],
     sos: [
       "PRECISAMOS DE AJUDA", "FOGO A BORDO", "HOMEM AO MAR", "DERIVA SEM MOTOR",
       "TEMPESTADE SE APROXIMA", "AGUARDANDO RESGATE", "BOTES AO MAR", "ALERTA ALERTA",
+      "MOTOR AVARIADO", "CASCO FURADO", "SEM COMBUSTIVEL", "SINAL DE SOCORRO",
     ],
     pirate: [
-      "TESOURO NA ILHA", "OURO NO BAÚ", "BANDEIRA NEGRA HASTEADA", "BOM VENTO",
-      "CAPITÃO NO CONVÉS", "MAPA DO TESOURO", "CAVERNA SUBMARINA", "CAÇA COMEÇA",
+      "TESOURO NA ILHA", "OURO NO BAU", "BANDEIRA NEGRA HASTEADA", "BOM VENTO",
+      "CAPITAO NO CONVES", "MAPA DO TESOURO", "CAVERNA SUBMARINA", "CAÇA COMEÇA",
+      "RUM NO PORAO", "CANHAO PRONTO", "PEROLA DO FUNDO", "SAQUE A BORDO",
     ],
     space: [
-      "ÓRBITA ESTÁVEL", "FOGUETE NO LANÇAMENTO", "SAÍDA PARA ESPAÇO", "MOTOR LIGADO",
-      "COMBUSTÍVEL NORMAL", "SONDA ENVIADA", "TRIPULAÇÃO PRONTA", "ROTA CORRETA",
+      "ORBITA FIRME", "FOGUETE NO LANÇAMENTO", "SAIDA PARA ESPAÇO", "MOTOR LIGADO",
+      "COMBUSTIVEL NORMAL", "SONDA ENVIADA", "TRIPULAÇAO PRONTA", "ROTA CORRETA",
+      "LUA A VISTA", "RADAR ATIVO", "MODULO ACOPLADO", "RETORNO A TERRA",
     ],
     animal: [
-      "LOBO NA TRILHA", "ÁGUIA NO CÉU", "URSO NA TOCA", "RAPOSA NA TOCA",
-      "TIGRE NA TOCAIA", "CERVO NO RIO", "COBRA SOB PEDRA", "FALCÃO EM VOO",
+      "LOBO NA TRILHA", "AGUIA NO ALTO", "URSO NA TOCA", "RAPOSA NA TOCA",
+      "TIGRE NA TOCAIA", "CERVO NO RIO", "COBRA SOB PEDRA", "FALCAO EM VOO",
+      "CORUJA NO GALHO", "LINCE NA CAÇADA", "LONTRA NO RIO", "CORVO NO CARVALHO",
     ],
   },
   PL: {
@@ -288,18 +308,22 @@ const PHRASES: Record<Lang, Record<string, string[]>> = {
     sos: [
       "POTRZEBUJEMY POMOCY", "POŻAR NA POKŁADZIE", "CZŁOWIEK ZA BURTĄ", "DRYFUJEMY",
       "SZTORM NADCHODZI", "CZEKAMY NA RATUNEK", "ŁODZIE NA WODĘ", "ALARM ALARM",
+      "SILNIK ZEPSUTY", "KADŁUB PRZEBITY", "BRAK PALIWA", "SYGNAŁ RATUNKOWY",
     ],
     pirate: [
       "SKARB NA WYSPIE", "ZŁOTO W SKRZYNI", "CZARNA FLAGA W GÓRĘ", "DOBRY WIATR",
       "KAPITAN NA MOSTKU", "MAPA SKARBÓW", "JASKINIA POD WODĄ", "POLOWANIE CZAS",
+      "RUM W ŁADOWNI", "ARMATY GOTOWE", "PERŁA Z DNA", "ŁUP NA POKŁADZIE",
     ],
     space: [
       "ORBITA STABILNA", "RAKIETA NA STARCIE", "WYJŚCIE W KOSMOS", "DOKOWANIE GOTOWE",
       "PALIWO W NORMIE", "SONDA WYSŁANA", "ZAŁOGA GOTOWA", "KURS PRAWIDŁOWY",
+      "KSIĘŻYC BLISKO", "RADAR DZIAŁA", "MODUŁ POŁĄCZONY", "POWRÓT NA ZIEMIĘ",
     ],
     animal: [
       "WILK NA ŚCIEŻCE", "ORZEŁ NA NIEBIE", "NIEDŹWIEDŹ W JAMIE", "SOWA NA GAŁĘZI",
       "LIS W NORZE", "TYGRYS W ZASADZCE", "JELEŃ NAD RZEKĄ", "SOKÓŁ W LOCIE",
+      "RYŚ NA ŁOWACH", "WYDRA W RZECE", "KRUK NA DĘBIE", "ŻUBR NA ŁĄCE",
     ],
   },
   TR: {
@@ -321,18 +345,22 @@ const PHRASES: Record<Lang, Record<string, string[]>> = {
     sos: [
       "YARDIM GEREKİYOR", "GÜVERTEDE YANGIN", "DENİZE DÜŞEN VAR", "SÜRÜKLENIYORUZ",
       "FIRTINA GELİYOR", "KURTARMA BEKLİYORUZ", "FİLİKALAR DENİZE", "ALARM ALARM",
+      "MOTOR ARIZALI", "GÖVDE DELİK", "YAKIT BİTTİ", "TEHLİKE SİNYALİ",
     ],
     pirate: [
       "ADADA HAZİNE", "SANDIKTA ALTIN", "SİYAH BAYRAK ÇEKİLİ", "İYİ RÜZGAR",
       "KAPTAN GÜVERTEDE", "HAZİNE HARİTASI", "SU ALTI MAĞARA", "AV BAŞLADI",
+      "AMBARDA ROM VAR", "TOPLAR HAZIR", "DİPTEN İNCİ", "GANİMET GEMİDE",
     ],
     space: [
       "YÖRÜNGE SABİT", "ROKET FIRLATILDI", "UZAYA ÇIKIŞ", "MOTOR ÇALIŞIYOR",
       "YAKIT NORMAL", "SONDA GÖNDERİLDİ", "MÜRETTEBAT HAZIR", "ROTA DOĞRU",
+      "AY GÖRÜNDÜ", "RADAR AKTİF", "MODÜL KENETLENDİ", "DÜNYAYA DÖNÜŞ",
     ],
     animal: [
       "KURT ULUYOR", "KARTAL UÇUYOR", "AYI UYUYOR", "BAYKUŞ DALDA",
       "TİLKİ YUVADA", "KAPLAN PUSUDA", "GEYİK NEHIRDE", "ŞAHIN UÇUŞTA",
+      "VAŞAK AVDA", "SU SAMURU NEHİRDE", "KUZGUN DALDA", "KURT İZDE",
     ],
   },
   NL: {
@@ -354,18 +382,22 @@ const PHRASES: Record<Lang, Record<string, string[]>> = {
     sos: [
       "WIJ HEBBEN HULP NODIG", "BRAND AAN BOORD", "MAN OVERBOORD", "DRIJVEN ZONDER MOTOR",
       "STORM IN AANTOCHT", "WACHTEN OP REDDING", "BOTEN TE WATER", "ALARM ALARM",
+      "MOTOR KAPOT", "ROMP LEK", "GEEN BRANDSTOF", "NOODSIGNAAL VERZONDEN",
     ],
     pirate: [
       "SCHAT OP EILAND", "GOUD IN DE KIST", "ZWARTE VLAG GEHESEN", "GOEDE WIND",
       "KAPITEIN AAN DEK", "SCHATKAART GEVONDEN", "GROT ONDER WATER", "JACHT BEGINT",
+      "RUM IN HET RUIM", "KANONNEN GEREED", "PAREL VAN DE BODEM", "BUIT AAN BOORD",
     ],
     space: [
       "BAAN IS STABIEL", "RAKET BIJ LANCERING", "NAAR DE RUIMTE", "MOTOR DRAAIT",
       "BRANDSTOF NORMAAL", "SONDE VERZONDEN", "BEMANNING GEREED", "KOERS IS JUIST",
+      "MAAN IN ZICHT", "RADAR ACTIEF", "MODULE GEKOPPELD", "TERUG NAAR AARDE",
     ],
     animal: [
       "WOLF OP HET PAD", "AREND IN DE LUCHT", "BEER IN DE GROT", "UIL OP DE TAK",
       "VOS IN ZIJN HOL", "TIJGER IN HINDERLAAG", "HERT BIJ DE RIVIER", "VALK IN VLUCHT",
+      "LYNX OP JACHT", "OTTER IN DE RIVIER", "RAAF OP DE EIK", "ELAND IN HET BOS",
     ],
   },
   SV: {
@@ -387,18 +419,22 @@ const PHRASES: Record<Lang, Record<string, string[]>> = {
     sos: [
       "VI BEHÖVER HJÄLP", "BRAND OMBORD", "MAN ÖVERBORD", "DRIVER UTAN MOTOR",
       "STORM PÅ VÄG", "VÄNTAR PÅ RÄDDNING", "BÅTAR I VATTNET", "ALARM ALARM",
+      "MOTORN TRASIG", "SKROVET LÄCKER", "BRÄNSLET SLUT", "NÖDSIGNAL SÄND",
     ],
     pirate: [
       "SKATT PÅ ÖN", "GULD I KISTAN", "SVART FLAGG HISSAD", "GOD VIND",
       "KAPTEN PÅ DÄCK", "SKATTKARTA HITTAD", "GROTTA UNDER VATTEN", "JAKTEN BÖRJAR",
+      "ROM I LASTEN", "KANONERNA KLARA", "PÄRLA FRÅN DJUPET", "BYTE OMBORD",
     ],
     space: [
       "OMLOPPSBANA STABIL", "RAKET VID START", "UT I RYMDEN", "MOTORN GÅR",
       "BRÄNSLE NORMALT", "SOND SKICKAD", "BESÄTTNING REDO", "KURSEN ÄR RÄTT",
+      "MÅNEN I SIKTE", "RADARN AKTIV", "MODULEN DOCKAD", "ÅTER TILL JORDEN",
     ],
     animal: [
       "VARGEN PÅ STIGEN", "ÖRNEN PÅ HIMLEN", "BJÖRNEN I IDET", "UGGLAN PÅ GRENEN",
       "RÄVEN I LYAN", "TIGERN I BAKHÅLL", "HJORTEN VID ÄN", "FALKEN I FLYKT",
+      "LODJUR PÅ JAKT", "UTTERN I ÄN", "KORPEN PÅ EKEN", "ÄLGEN I SKOGEN",
     ],
   },
   UK: {
@@ -413,25 +449,29 @@ const PHRASES: Record<Lang, Record<string, string[]>> = {
       "КОНВОЙ В ДОРОЗІ", "БУНКЕР ЗНАЙДЕНО", "ФРОНТ СТАБІЛЬНИЙ", "АТАКА НА СВІТАНКУ",
     ],
     spy: [
-      "АГЕНТ НА ЗВ'ЯЗКУ", "ПАРОЛЬ ПРИЙНЯТО", "ЗУСТРІЧ ОПІВНОЧІ", "НЕБЕЗПЕКА ПОРУЧ",
+      "АГЕНТ НА ЛІНІЇ", "ПАРОЛЬ ПРИЙНЯТО", "ЗУСТРІЧ ОПІВНОЧІ", "НЕБЕЗПЕКА ПОРУЧ",
       "МІСІЯ ЗАВЕРШЕНА", "КОНТАКТ ВСТАНОВЛЕНО", "ДОСЬЄ ОТРИМАНО", "ВИХІД ЧЕРЕЗ МІСТ",
       "НІЧ БЕЗ МІСЯЦЯ", "ПЛАН ЗАТВЕРДЖЕНО", "ЦІЛЬ ВИЯВЛЕНО", "ВТЕЧА ЧЕРЕЗ ДАХ",
     ],
     sos: [
       "ПОТРІБНА ДОПОМОГА", "ПОЖЕЖА НА БОРТУ", "ЛЮДИНА ЗА БОРТОМ", "ДРЕЙФУЄМО",
       "ШТОРМ НАБЛИЖАЄТЬСЯ", "ЧЕКАЄМО ПОРЯТУНКУ", "ШЛЮПКИ НА ВОДУ", "ТРИВОГА ТРИВОГА",
+      "ДВИГУН ЗЛАМАВСЯ", "КОРПУС ПРОБИТО", "ПАЛЬНЕ СКІНЧИЛОСЬ", "СИГНАЛ ЛИХА",
     ],
     pirate: [
       "СКАРБ НА ОСТРОВІ", "ЗОЛОТО В СКРИНІ", "ЧОРНИЙ ПРАПОР ПІДНЯТО", "ДОБРИЙ ВІТЕР",
       "КАПІТАН НА МІСТКУ", "КАРТА СКАРБІВ", "ПЕЧЕРА ПІД ВОДОЮ", "ПОЛЮВАННЯ ПОЧАЛОСЬ",
+      "РОМ У ТРЮМІ", "ГАРМАТИ ГОТОВІ", "ПЕРЛИНА З ДНА", "ЗДОБИЧ НА БОРТУ",
     ],
     space: [
       "ОРБІТА СТАБІЛЬНА", "РАКЕТА НА СТАРТІ", "ВИХІД У КОСМОС", "СТИКУВАННЯ ЗАВЕРШЕНО",
       "ПАЛЬНЕ В НОРМІ", "ЗОНД ВІДПРАВЛЕНО", "ЕКІПАЖ ГОТОВИЙ", "КУРС ВІРНИЙ",
+      "МІСЯЦЬ ПОПЕРЕДУ", "РАДАР ПРАЦЮЄ", "МОДУЛЬ ПРИСТИКОВАНО", "ПОВЕРНЕННЯ ДОДОМУ",
     ],
     animal: [
       "ВОВК НА СТЕЖЦІ", "ОРЕЛ У НЕБІ", "ВЕДМІДЬ У БАРЛОЗІ", "СОВА НА ГІЛЦІ",
       "ЛИСИЦЯ В НОРІ", "ТИГР У ЗАСІДЦІ", "ОЛЕНЬ БІЛЯ РІЧКИ", "СОКІЛ У ПОЛЬОТІ",
+      "РИСЬ НА ПОЛЮВАННІ", "ВИДРА В РІЧЦІ", "КРУК НА ДУБІ", "ЛОСЬ У ЛІСІ",
     ],
   },
   NO: {
@@ -453,29 +493,66 @@ const PHRASES: Record<Lang, Record<string, string[]>> = {
     sos: [
       "VI TRENGER HJELP", "BRANN OM BORD", "MANN OVER BORD", "DRIVER UTEN MOTOR",
       "STORM PÅ VEI", "VENTER PÅ REDNING", "BÅTER I VANNET", "ALARM ALARM",
+      "MOTOREN ER DØD", "SKROGET LEKKER", "TOM FOR DRIVSTOFF", "NØDSIGNAL SENDT",
     ],
     pirate: [
       "SKATT PÅ ØYA", "GULL I KISTEN", "SVART FLAGG HEIST", "GOD VIND",
       "KAPTEINEN PÅ DEKK", "SKATTKART FUNNET", "GROTTE UNDER VANN", "JAKTEN STARTER",
+      "ROM I LASTEN", "KANONENE KLARE", "PERLE FRA DYPET", "BYTTE OM BORD",
     ],
     space: [
       "BANEN ER STABIL", "RAKETT VED START", "UT I ROMMET", "MOTOREN GÅR",
       "DRIVSTOFF NORMALT", "SONDE SENDT", "MANNSKAP KLART", "KURSEN ER RIKTIG",
+      "MÅNEN I SIKTE", "RADAREN AKTIV", "MODULEN DOKKET", "TILBAKE TIL JORDEN",
     ],
     animal: [
       "ULVEN PÅ STIEN", "ØRNEN PÅ HIMMELEN", "BJØRNEN I HIET", "UGLA PÅ GREINA",
       "REVEN I HIET", "TIGEREN I BAKHOLD", "HJORTEN VED ELVA", "FALKEN I FLUKT",
+      "GAUPE PÅ JAKT", "OTEREN I ELVA", "RAVNEN PÅ EIKA", "ELGEN I SKOGEN",
     ],
   },
 };
 
-function pick<T>(arr: T[]): T {
-  return arr[Math.floor(Math.random() * arr.length)];
+function shuffle<T>(arr: T[]): T[] {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+// Deck system: each (lang, theme) pool is shuffled and dealt without
+// repeats until exhausted, then reshuffled (never the same phrase twice in a row).
+const decks: Record<string, string[]> = {};
+const lastDraw: Record<string, string> = {};
+
+function draw(pool: string[], key: string): string {
+  let deck = decks[key];
+  if (!deck || deck.length === 0) {
+    deck = shuffle([...pool]);
+    // avoid repeating the previous phrase right after a reshuffle
+    if (deck.length > 1 && deck[deck.length - 1] === lastDraw[key]) {
+      [deck[0], deck[deck.length - 1]] = [deck[deck.length - 1], deck[0]];
+    }
+    decks[key] = deck;
+  }
+  const p = deck.pop()!;
+  lastDraw[key] = p;
+  return p;
 }
 
 export function generatePhrase(lang: Lang, theme: Theme): string {
   const pool = PHRASES[lang];
-  const themeKeys = theme === "mix" ? Object.keys(pool) : [theme];
-  const phrases = pool[pick(themeKeys)] || pool.sea;
-  return pick(phrases);
+  const phrases = theme === "mix"
+    ? Object.values(pool).flat()
+    : pool[theme] || pool.sea;
+  const phrase = draw(phrases, `${lang}:${theme}`);
+  // safety net: drop characters that have no Morse code in this language
+  const map = MORSE_MAPS[lang];
+  return phrase
+    .split("")
+    .filter(c => c === " " || map[c])
+    .join("")
+    .replace(/\s+/g, " ")
+    .trim();
 }
