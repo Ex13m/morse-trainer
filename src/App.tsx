@@ -797,7 +797,7 @@ export default function App() {
                 <button className="set-reset" onClick={() => { setFreq(850); setThreshold(140); setWpm(10); setVibEnabled(true); }}>
                   {({ RU: "СБРОСИТЬ ПО УМОЛЧАНИЮ", EN: "RESET TO DEFAULTS", ES: "RESTABLECER", DE: "ZURÜCKSETZEN", FR: "RÉINITIALISER", IT: "RIPRISTINA", PT: "RESTAURAR", PL: "PRZYWRÓĆ DOMYŚLNE", TR: "VARSAYILANLARA DÖNÜŞ", NL: "STANDAARD HERSTELLEN", SV: "ÅTERSTÄLL", UK: "СКИНУТИ", NO: "TILBAKESTILL" } as Record<string, string>)[lang]}
                 </button>
-                <div className="set-footer">MORSE TRAINER · v2</div>
+                <div className="set-footer">MORSE TRAINER · v2.2.1</div>
               </div>
             )}
           </div>
