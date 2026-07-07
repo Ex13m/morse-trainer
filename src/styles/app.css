@@ -976,6 +976,132 @@ html, body {
   letter-spacing: .14em;
   color: var(--brass-500);
 }
+.rank-card { cursor: pointer; }
+.rank-more {
+  margin-left: auto;
+  font: 700 18px var(--serif);
+  line-height: 1;
+  color: var(--brass-500);
+}
+
+/* ── RANKS OVERLAY (табель о рангах) ── */
+.ranks-overlay {
+  position: absolute; inset: 0;
+  z-index: 20;
+  background: radial-gradient(120% 140% at 50% 0%, #14100a 0%, #0a0805 55%, #050302 100%);
+  display: flex; flex-direction: column;
+  padding: 16px 14px 10px;
+}
+.ranks-head {
+  display: flex; align-items: center; justify-content: space-between;
+}
+.ranks-title {
+  font: 700 14px var(--serif);
+  letter-spacing: .26em;
+  color: var(--brass-100);
+  text-shadow: 0 0 14px rgba(217,182,110,.25);
+}
+.ranks-close {
+  width: 32px; height: 32px; border: 0; border-radius: 8px;
+  display: grid; place-items: center;
+  background: linear-gradient(180deg, var(--brass-700), var(--brass-800));
+  color: var(--brass-200); cursor: pointer;
+  box-shadow: inset 0 0 0 1px rgba(217,182,110,.3), 0 2px 6px rgba(0,0,0,.5);
+}
+.ranks-ornament {
+  text-align: center;
+  font: 700 9px var(--mono);
+  letter-spacing: .3em;
+  color: var(--brass-600);
+  margin: 8px 0 10px;
+}
+.ranks-list {
+  flex: 1; min-height: 0;
+  overflow-y: auto;
+  display: flex; flex-direction: column; gap: 7px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(217,182,110,.3) transparent;
+}
+.ranks-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 9px 12px;
+  border-radius: 10px;
+  background: radial-gradient(120% 200% at 50% -50%, #171008 0%, #0e0a06 100%);
+  box-shadow: inset 0 0 0 1px rgba(217,182,110,.14);
+  flex-shrink: 0;
+}
+.ranks-row.top {
+  background: radial-gradient(120% 200% at 50% -50%, #1f150a 0%, #120c06 100%);
+  box-shadow: inset 0 0 0 1px rgba(217,182,110,.35);
+}
+.ranks-row.current {
+  box-shadow:
+    inset 0 0 0 1px rgba(103,194,105,.45),
+    0 0 16px rgba(103,194,105,.12);
+}
+.ranks-medal {
+  width: 40px; height: 40px; border-radius: 50%;
+  display: grid; place-items: center;
+  flex-shrink: 0;
+  background: #1a130a;
+  box-shadow: inset 0 0 0 1.5px var(--brass-600), inset 0 -4px 8px rgba(0,0,0,.5);
+  font: 700 12px var(--serif);
+  color: var(--brass-200);
+}
+.ranks-row.top .ranks-medal {
+  box-shadow: inset 0 0 0 1.5px var(--brass-400), 0 0 10px rgba(217,182,110,.25);
+  color: var(--brass-50);
+}
+.ranks-row.current .ranks-medal {
+  box-shadow: inset 0 0 0 1.5px rgba(103,194,105,.6), 0 0 10px rgba(103,194,105,.2);
+  color: var(--live);
+}
+.ranks-info {
+  flex: 1; min-width: 0;
+  display: flex; flex-direction: column; gap: 3px;
+}
+.ranks-name {
+  font: 700 13px var(--serif);
+  letter-spacing: .18em;
+  color: var(--brass-100);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.ranks-row.top .ranks-name { color: var(--brass-50); }
+.ranks-sub {
+  display: flex; align-items: baseline; gap: 8px;
+}
+.ranks-stars {
+  font-size: 8px; letter-spacing: 2px;
+  color: var(--brass-400);
+  line-height: 1;
+}
+.ranks-row.top .ranks-stars { color: var(--brass-200); }
+.ranks-en {
+  font: 500 8px var(--mono);
+  letter-spacing: .14em;
+  color: var(--brass-500);
+}
+.ranks-range {
+  display: flex; flex-direction: column; align-items: flex-end; gap: 2px;
+  flex-shrink: 0;
+}
+.ranks-range b {
+  font: 700 14px var(--mono);
+  color: var(--live);
+  text-shadow: 0 0 8px var(--live-glow);
+}
+.ranks-range span {
+  font: 500 7px var(--mono);
+  letter-spacing: .12em;
+  color: var(--brass-500);
+}
+.ranks-foot {
+  padding-top: 8px;
+  text-align: center;
+  font: 500 7.5px var(--mono);
+  letter-spacing: .14em;
+  color: var(--brass-600);
+}
 
 /* ── VICTORY WPM ── */
 .victory-wpm {

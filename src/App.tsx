@@ -11,7 +11,14 @@ import {
   IconDownload, IconUpload, IconMic, IconVoice,
 } from "./components/Icons";
 import Splash from "./components/Splash";
-import { getRank, getNextRank } from "./data/ranks";
+import { RANKS, getRank, getNextRank } from "./data/ranks";
+
+const ROMANS = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII"];
+const RANKS_TITLE: Record<string, string> = {
+  RU: "ТАБЕЛЬ О РАНГАХ", EN: "TABLE OF RANKS", ES: "TABLA DE RANGOS", DE: "RANGTABELLE",
+  FR: "TABLEAU DES RANGS", IT: "TABELLA DEI GRADI", PT: "TABELA DE PATENTES", PL: "TABELA RANG",
+  TR: "RÜTBE TABLOSU", NL: "RANGENTABEL", SV: "RANGTABELL", UK: "ТАБЕЛЬ ПРО РАНГИ", NO: "RANGTABELL",
+};
 
 function buildVerticalLayout(map: Record<string, string>, rootLabel: string, maxDepth = 5) {
   const nodes: Record<string, { code: string; char: string | null; kind: string; depth: number; children: typeof nodes[string][] }> = {};
@@ -250,6 +257,7 @@ export default function App() {
   const [micActive, setMicActive] = useState(false);
   const [micMorse, setMicMorse] = useState("");
   const [phraseComplete, setPhraseComplete] = useState(false);
+  const [ranksOpen, setRanksOpen] = useState(false);
   const [voiceActive, setVoiceActive] = useState(false);
   const voiceRef = useRef<SpeechRecognition | null>(null);
   const voiceAccRef = useRef("");
@@ -772,10 +780,11 @@ export default function App() {
                   const next = getNextRank(bestWpm);
                   const progress = next ? Math.min(100, ((bestWpm - rank.minWpm) / (next.minWpm - rank.minWpm)) * 100) : 100;
                   return (
-                    <div className="rank-card">
+                    <div className="rank-card" onClick={() => setRanksOpen(true)}>
                       <div className="rank-top">
                         <span className="rank-icon">{rank.icon}</span>
                         <span className="rank-label">{rank.label[lang]}</span>
+                        <span className="rank-more">›</span>
                       </div>
                       <div className="rank-stats">
                         <span>{({ RU: "ЛУЧШИЙ", EN: "BEST", ES: "MEJOR", DE: "BEST", FR: "MEILLEUR", IT: "MIGLIORE", PT: "MELHOR", PL: "NAJLEPSZY", TR: "EN İYİ", NL: "BESTE", SV: "BÄST", UK: "НАЙКРАЩИЙ", NO: "BEST" } as Record<string, string>)[lang]}: <b>{bestWpm}</b> {t.units.wpm}</span>
@@ -882,6 +891,41 @@ export default function App() {
                 {({ RU: "ОТЛИЧНО!", EN: "GREAT!", ES: "EXCELENTE!", DE: "SUPER!", FR: "BRAVO!", IT: "OTTIMO!", PT: "ÓTIMO!", PL: "ŚWIETNIE!", TR: "HARİKA!", NL: "GEWELDIG!", SV: "UTMÄRKT!", UK: "ЧУДОВО!", NO: "FLOTT!" } as Record<string, string>)[lang]}
               </span>
               {lastWpm > 0 && <span className="victory-wpm">{lastWpm} {t.units.wpm}</span>}
+            </div>
+          )}
+
+          {ranksOpen && (
+            <div className="ranks-overlay">
+              <div className="ranks-head">
+                <span className="ranks-title">{RANKS_TITLE[lang]}</span>
+                <button className="ranks-close" onClick={() => setRanksOpen(false)}><IconX /></button>
+              </div>
+              <div className="ranks-ornament">• ━ • ━ • ━ •</div>
+              <div className="ranks-list">
+                {RANKS.map((r, i) => {
+                  const nextR = RANKS[i + 1];
+                  const range = nextR ? `${r.minWpm}–${nextR.minWpm - 1}` : `${r.minWpm}+`;
+                  const isCurrent = getRank(bestWpm).key === r.key;
+                  const isTop = i === RANKS.length - 1;
+                  return (
+                    <div key={r.key} className={`ranks-row ${isCurrent ? "current" : ""} ${isTop ? "top" : ""}`}>
+                      <span className="ranks-medal">{ROMANS[i]}</span>
+                      <span className="ranks-info">
+                        <span className="ranks-name">{r.label[lang]}</span>
+                        <span className="ranks-sub">
+                          <span className="ranks-stars">{"★".repeat(i + 1)}</span>
+                          {r.label.EN !== r.label[lang] && <span className="ranks-en">{r.label.EN}</span>}
+                        </span>
+                      </span>
+                      <span className="ranks-range">
+                        <b>{range}</b>
+                        <span>{t.units.wpm}</span>
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+              <div className="ranks-foot">GAUSSE HOLLER CUSTOM LAB © · MORSE TRAINER v{__APP_VERSION__}</div>
             </div>
           )}
 
