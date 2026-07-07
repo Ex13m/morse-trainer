@@ -823,7 +823,7 @@ export default function App() {
                 <span className={`led ${keyDown && pressDur < threshold ? "on" : ""}`} />
                 {t.short}
               </span>
-              <span className="seg mid">
+              <span className={`seg mid${currentSeq ? " has-seq" : ""}`}>
                 {tab === 2 && !currentSeq && (
                   <button className="transmit" onClick={transmit}>{isPlaying ? t.stop : t.transmit}</button>
                 )}

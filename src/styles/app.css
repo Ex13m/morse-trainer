@@ -526,9 +526,16 @@ html, body {
   color: var(--brass-400);
   letter-spacing: .18em;
   padding: 0 4px;
+  min-width: 0; /* grid item: не давать длинной последовательности распирать панель */
 }
-.key-rail .seg { display: flex; align-items: center; gap: 8px; }
-.key-rail .seg.mid { flex: 1; justify-content: center; }
+.key-rail .seg { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.key-rail .seg.mid {
+  flex: 1; justify-content: center;
+  min-width: 0; overflow: hidden;
+}
+/* длинная последовательность: прижата вправо, свежие знаки всегда видны,
+   старые уходят за левый край — панель не растягивается */
+.key-rail .seg.mid.has-seq { justify-content: flex-end; }
 .key-rail .led {
   width: 8px; height: 8px; border-radius: 50%;
   background: radial-gradient(circle at 30% 30%, #c9a35a, #3b2c10);
@@ -549,6 +556,8 @@ html, body {
   letter-spacing: .24em;
   color: var(--brass-50);
   text-shadow: 0 0 8px rgba(246,227,176,.5);
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 /* ── threshold meter ── */

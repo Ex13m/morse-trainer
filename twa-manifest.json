@@ -20,7 +20,7 @@
     "alias": "morse-trainer"
   },
   "appVersionCode": 2,
-  "appVersionName": "2.4.0",
+  "appVersionName": "2.4.1",
   "shortcuts": [],
   "generatorApp": "bubblewrap-cli",
   "webManifestUrl": "https://TODO_YOUR_NETLIFY_DOMAIN.netlify.app/manifest.json",
