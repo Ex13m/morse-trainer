@@ -12,6 +12,13 @@ dist
 dist-ssr
 *.local
 
+# Signing keys — NEVER commit (backup separately!)
+*.keystore
+*.keystore.credentials.txt
+
+# Netlify local state
+.netlify
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

@@ -1,6 +1,6 @@
-{
+﻿{
   "packageId": "com.morsetrainer.app",
-  "host": "TODO_YOUR_NETLIFY_DOMAIN.netlify.app",
+  "host": "morse-trainer-app.netlify.app",
   "name": "Morse Trainer",
   "launcherName": "Morse Trainer",
   "display": "standalone",
@@ -12,8 +12,8 @@
   "backgroundColor": "#050303",
   "enableNotifications": false,
   "startUrl": "/",
-  "iconUrl": "https://TODO_YOUR_NETLIFY_DOMAIN.netlify.app/icon-512.png",
-  "maskableIconUrl": "https://TODO_YOUR_NETLIFY_DOMAIN.netlify.app/icon-maskable-512.png",
+  "iconUrl": "https://morse-trainer-app.netlify.app/icon-512.png",
+  "maskableIconUrl": "https://morse-trainer-app.netlify.app/icon-maskable-512.png",
   "splashScreenFadeOutDuration": 300,
   "signingKey": {
     "path": "./morse-trainer.keystore",
@@ -23,7 +23,7 @@
   "appVersionName": "2.4.1",
   "shortcuts": [],
   "generatorApp": "bubblewrap-cli",
-  "webManifestUrl": "https://TODO_YOUR_NETLIFY_DOMAIN.netlify.app/manifest.json",
+  "webManifestUrl": "https://morse-trainer-app.netlify.app/manifest.json",
   "fallbackType": "customtabs",
   "features": {},
   "alphaDependencies": {
@@ -34,3 +34,4 @@
   "isMetaQuest": false,
   "orientation": "portrait"
 }
+
