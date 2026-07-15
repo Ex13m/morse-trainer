@@ -19,6 +19,9 @@ dist-ssr
 # Netlify local state
 .netlify
 
+# Bubblewrap android project (regenerate: bubblewrap update in android/)
+android
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
