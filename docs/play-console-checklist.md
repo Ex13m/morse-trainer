@@ -10,10 +10,11 @@
 - ⚠️ Бекап `morse-trainer.keystore` + `morse-trainer.keystore.credentials.txt` — ОБЯЗАТЕЛЬНО
 
 ## 1. Аккаунт разработчика
-https://play.google.com/console — разовый взнос $25.
-**Важно (личный аккаунт, созданный после ноября 2023):** прежде чем открыть
-продакшен, Google требует закрытое тестирование: **минимум 12 тестеров,
-непрерывно 14 дней**. Так что закрытый тест — не опция, а обязательный этап.
+Аккаунт есть — **коммерческий (организация)**: требование «12 тестеров /
+14 дней» НЕ действует, можно публиковать сразу в Production.
+Рекомендация: перед продакшеном прогнать AAB через Internal testing на
+своём устройстве (5 минут) — проверить установку и отсутствие адресной
+строки (Digital Asset Links).
 
 ## 2. Создать приложение
 Play Console → Create app:
@@ -40,23 +41,19 @@ Play Console → Create app:
 - Phone screenshots: `docs/store/1-training.png … 4-code.png`
 - Category: Education · Contact email: ex333m@gmail.com
 
-## 5. Закрытое тестирование (Closed testing)
-Testing → Closed testing → Create track (или стандартный Alpha):
+## 5. Релиз
+Testing → Internal testing (быстрая проверка) или сразу Production:
 1. Create release → загрузить AAB
    - Play App Signing: согласиться (Google перепишет подпись — это ок;
-     ПОСЛЕ этого скопировать из App integrity новый SHA-256 от Google
-     и ДОБАВИТЬ его в `public/.well-known/assetlinks.json` вторым элементом
-     массива, задеплоить — иначе у тестеров будет адресная строка!)
-   - Release name: `2.4.1 (2)` · Release notes: первая тестовая сборка
-2. Testers → создать email-список (минимум 12 адресов для зачёта 14 дней)
-   или Google Group
-3. Сохранить → Review release → Start rollout to Closed testing
-4. Скопировать **opt-in link** и разослать тестерам
-   (тестер: открыть ссылку → Accept invite → установить из Play)
-
-## 6. Через 14 дней
-Dashboard покажет выполнение требований → Apply for production access →
-после одобрения можно катить Production.
+     ПОСЛЕ этого скопировать из App integrity → App signing key certificate
+     новый SHA-256 от Google и ДОБАВИТЬ его в
+     `public/.well-known/assetlinks.json` вторым элементом массива,
+     задеплоить — иначе у пользователей будет адресная строка!)
+   - Release name: `2.4.1 (2)` · Release notes: первый релиз
+2. Internal testing: добавить свой email в testers → opt-in link →
+   поставить на свой телефон → проверить
+3. Production → Create release (тот же AAB) → Review → Start rollout
+   Ревью Google обычно 1–3 дня для нового приложения.
 
 ## 7. Обновления (следующие сборки)
 1. Поднять `appVersionCode` (3, 4, …) и `appVersionName` в twa-manifest.json
